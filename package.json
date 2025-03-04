@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node dist/basicFunctions.js\"",
-    "eslint": "eslint ."
+    "eslint": "eslint .",
+    "prettier": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,9 @@
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.2",
     "globals": "^16.0.0",
+    "prettier": "^3.5.3",
     "tsc-watch": "^6.2.1",
     "typescript-eslint": "^8.26.0"
   }
