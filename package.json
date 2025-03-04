@@ -7,7 +7,7 @@
     "eslint": "eslint .",
     "prettier": "prettier --write .",
     "doc": "typedoc",
-    "vitest": "npx vitest run"
+    "test": "npx vitest run"
   },
   "repository": {
     "type": "git",
