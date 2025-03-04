@@ -6,7 +6,8 @@
     "dev": "tsc-watch --onSuccess \"node dist/basicFunctions.js\"",
     "eslint": "eslint .",
     "prettier": "prettier --write .",
-    "doc": "typedoc"
+    "doc": "typedoc",
+    "vitest": "npx vitest run"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "prettier": "^3.5.3",
     "tsc-watch": "^6.2.1",
     "typedoc": "^0.27.9",
-    "typescript-eslint": "^8.26.0"
+    "typescript-eslint": "^8.26.0",
+    "vitest": "^3.0.7"
   }
 }
