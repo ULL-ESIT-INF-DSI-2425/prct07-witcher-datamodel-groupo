@@ -1,0 +1,9 @@
+dist
+node_modules
+.prettierrc
+eslint.config.mjs
+package.json
+tsconfig.json
+typedoc.json
+README.md
+.github
