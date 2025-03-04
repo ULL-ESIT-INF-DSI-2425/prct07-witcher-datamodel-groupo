@@ -1,0 +1,1 @@
+[![CI Tests](https://github.com/ULL-ESIT-INF-DSI-2425/prct07-witcher-datamodel-groupo/actions/workflows/ci.yml/badge.svg)](https://github.com/ULL-ESIT-INF-DSI-2425/prct07-witcher-datamodel-groupo/actions/workflows/ci.yml)
