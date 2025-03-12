@@ -1,11 +1,12 @@
 import { Races } from "../enums/races.js";
+import { ClientInfo } from "../intefaces/clientinfo.js";
 
 /**
  * Represents a Client of the Inn
  *
  * Class Client
  */
-export class Client {
+export class Client implements ClientInfo {
   /**
    * Construct a Client type object
    * @param id - identification number of the Client (number)
@@ -14,7 +15,7 @@ export class Client {
    * @param location - place of origin of the Client (string)
    */
   constructor(
-    public id: string,
+    public id: number,
     public name: string,
     public race: Races,
     public location: string,

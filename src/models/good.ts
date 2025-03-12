@@ -1,9 +1,11 @@
+import { GoodInfo } from "../intefaces/goodinfo.js";
+
 /**
  * Represents a Good type object with its information
  *
  * Class Good
  */
-export class Good {
+export class Good implements GoodInfo {
   /**
    * Constructs a Good type object
    * @param id - identification number of the good (number)
@@ -14,7 +16,7 @@ export class Good {
    * @param value - value in Crowns of the good (number)
    */
   constructor(
-    public id: string,
+    public id: number,
     public name: string,
     public description: string,
     public material: string,
