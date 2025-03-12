@@ -1,22 +1,32 @@
-import {JSONFile, Low} from "lowdb";
-import { Good } from "../models/good.js";
-import { Merchant } from "../models/merchant.js";
-import { Client } from "../models/client.js";
+import { Low } from "lowdb";
+import { JSONFile } from "lowdb/node";
+import { DataSchema } from "../types/dataschema.js";
 
-export type DataSchema = {
-  goods: Good[];
-  merchants: Merchant[];
-  customers: Client[];
-  transactions: number[];
-}
+/**
+ * create a JSON Database file on root 
+ */
+const adapter = new JSONFile<DataSchema>("../../db.json");
 
-const adapter = new JSONFile<DataSchema>('./db.json');
-export const db = new Low<DataSchema>(adapter);
+/**
+ * the initial data of the database
+ */
+const initial: DataSchema = {
+  goods: [],
+  merchants: [],
+  customers: [],
+  transactions: [],
+};
 
+/**
+ * db is the database object that will be used to interact with the database file
+ */
+export const db = new Low<DataSchema>(adapter, initial);
+
+/**
+ * initDB is a function that initializes the database.
+ * It reads the database file and writes it back to the file in a synchronous way.
+ */
 export async function initDB() {
   await db.read();
-  db.data ||= { goods: [], merchants: [], customers: [], transactions: [] };
   await db.write();
 }
-
-el copilot escribiendo poesiapic.twitter.com/1Z6Z6Z2Q2v
