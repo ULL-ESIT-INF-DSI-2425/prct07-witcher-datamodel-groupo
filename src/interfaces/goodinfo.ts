@@ -1,3 +1,4 @@
+import { Materials } from "../enums/materials.js";
 /**
  * Interface that holds the information of a Good
  *
@@ -7,7 +8,7 @@ export interface GoodInfo {
   id: number;
   name: string;
   description: string;
-  material: string;
+  material: Materials;
   weight: number;
   value: number;
 }

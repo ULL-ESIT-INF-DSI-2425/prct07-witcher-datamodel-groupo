@@ -8,7 +8,7 @@
     "prettier": "prettier --write .",
     "doc": "typedoc",
     "test": "npx vitest run",
-    "coverage": "npx vitest run --coverage --coverage.include src/"
+    "coverage": "npx vitest run --coverage --coverage.include 'src/**/*'"
   },
   "repository": {
     "type": "git",
