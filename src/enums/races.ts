@@ -2,10 +2,10 @@
  * Enum with the types of Races of The Witcher
  */
 export enum Races {
-  HUMAN,
-  ELF,
-  DWARF,
-  WITCHER,
-  HALVELING,
-  HALVEELF,
+  HUMAN = "Human",
+  ELF = "Elf",
+  DWARF = "Dwarf",
+  WITCHER = "Witcher",
+  HALVELING = "Halveling",
+  HALVEELF = "Halveelf",
 }

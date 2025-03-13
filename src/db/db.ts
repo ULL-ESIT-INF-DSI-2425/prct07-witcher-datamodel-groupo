@@ -3,14 +3,14 @@ import { JSONFile } from "lowdb/node";
 import { DataSchema } from "../types/dataschema.js";
 
 /**
- * create a JSON Database file on root 
+ * Adapter to interact with JSON file
  */
-const adapter = new JSONFile<DataSchema>("../../db.json");
+const adapter = new JSONFile<DataSchema>("./db.json");
 
 /**
- * the initial data of the database
+ * Initial state for the database
  */
-const initial: DataSchema = {
+const initialData: DataSchema = {
   goods: [],
   merchants: [],
   customers: [],
@@ -18,15 +18,16 @@ const initial: DataSchema = {
 };
 
 /**
- * db is the database object that will be used to interact with the database file
+ * Database instance
  */
-export const db = new Low<DataSchema>(adapter, initial);
+export const db = new Low<DataSchema>(adapter, initialData);
 
 /**
- * initDB is a function that initializes the database.
- * It reads the database file and writes it back to the file in a synchronous way.
+ * Initialize the database
  */
 export async function initDB() {
   await db.read();
+  db.data ||= initialData; // If the file is empty, use the initial data
   await db.write();
 }
+
