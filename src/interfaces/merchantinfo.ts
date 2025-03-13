@@ -1,5 +1,5 @@
 import { Locations } from "../enums/locations.js";
-import { MerchantType } from "../enums/type.js";
+import { MerchantType } from "../enums/merchantType.js";
 
 /**
  * Interface that holds the information of a Merchant
