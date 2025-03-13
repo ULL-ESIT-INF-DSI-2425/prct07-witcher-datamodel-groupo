@@ -2,35 +2,11 @@
   "goods": [
     {
       "id": 0,
-      "name": "Queso",
-      "description": "Queso curado de Mahakam",
+      "name": "Makaham Steel Sword",
+      "description": "A sword made of the finest steel from Mahakam",
       "material": "Makaham Steel",
       "weight": 3.5,
       "value": 500
-    },
-    {
-      "id": 1,
-      "name": "Pan",
-      "description": "Pan horneado en Novigrado",
-      "material": "Makaham Steel",
-      "weight": 1,
-      "value": 50
-    },
-    {
-      "id": 0,
-      "name": "Queso",
-      "description": "Queso curado de Mahakam",
-      "material": "Makaham Steel",
-      "weight": 3.5,
-      "value": 500
-    },
-    {
-      "id": 3,
-      "name": "tre",
-      "description": "tre",
-      "material": "Makaham Steel",
-      "weight": 1,
-      "value": 50
     }
   ],
   "merchants": [

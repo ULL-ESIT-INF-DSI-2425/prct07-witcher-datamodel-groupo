@@ -16,6 +16,14 @@ async function main() {
     weight: 3.5,
     value: 500,
   });
+  db_rom.db.data.goods.push({
+    id: 1,
+    name: "Pollo",
+    description: "Pollo asado de Mahakam",
+    material: Materials.MAKAHAM_STEEL,
+    weight: 3.5,
+    value: 50,
+  });
   db_rom.db.data.merchants.push({
     id: 0,
     name: "Yennefer",

@@ -21,10 +21,20 @@ import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 import { DataSchema } from "../types/dataschema.js";
 
+/** 
+ * The Represent of element in the database
+ * 
+ * Class DB_ROM
+ */
 export class DB_ROM implements DB {
   public adapter: JSONFile<DataSchema>;
   public db: Low<DataSchema>;
 
+  /** 
+   * The constructor of the class
+   * @param filePath - Route of the database.json 
+   * @param initialData - the first data we want to insert in the database.json
+   */
   constructor(
     public filePath: string = "./src/db/db.json", // Ruta del archivo de la BD
     public initialData: DataSchema = { goods: [], merchants: [], customers: [], transactions: [] }
@@ -33,7 +43,10 @@ export class DB_ROM implements DB {
     this.db = new Low<DataSchema>(this.adapter, initialData);
   }
 
-  async initDB() {
+  /** 
+   * An method to initilizate the database
+   */
+  async initDB(): Promise<void> {
     await this.db.read();
     this.db.data ||= this.initialData; // Si el archivo está vacío, usa los datos iniciales
     await this.db.write();
