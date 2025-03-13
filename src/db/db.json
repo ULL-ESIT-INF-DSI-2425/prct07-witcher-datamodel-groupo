@@ -1,0 +1,15 @@
+{
+  "goods": [
+    {
+      "id": 1,
+      "name": "Espada de Plata de Kaer Morhen",
+      "description": "Forjada con acero de Mahakam, perfecta para cazar monstruos.",
+      "material": "Makaham Steel",
+      "weight": 3.5,
+      "value": 500
+    }
+  ],
+  "merchants": [],
+  "customers": [],
+  "transactions": []
+}

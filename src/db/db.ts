@@ -5,7 +5,7 @@ import { DataSchema } from "../types/dataschema.js";
 /**
  * Adapter to interact with JSON file
  */
-const adapter = new JSONFile<DataSchema>("./db.json");
+const adapter = new JSONFile<DataSchema>("./src/db/db.json");
 
 /**
  * Initial state for the database
