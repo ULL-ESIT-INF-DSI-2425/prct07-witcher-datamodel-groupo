@@ -188,7 +188,7 @@
 //     return order === "asc" ? (valueA > valueB ? 1 : -1) : valueA < valueB ? 1 : -1;
 //   });
 // }
-
+import { InventoryContain } from "./inventory_contain.js";
 import { DB_ROM } from "../db/db_class.js";
 import { Good } from "../models/good.js";
 import { Merchant } from "../models/merchant.js";
@@ -202,38 +202,69 @@ import { Client } from "../models/client.js";
 export class Inventory {
   // Atributos
   private db: DB_ROM;
+  private stock: Map<Good, number>;
 
   // Constructor
   constructor() {
     this.db = new DB_ROM();
+    this.stock = new Map(); // mapa para llevar un control de los items en la base de datos
   }
   async initDB() {
     await this.db.initDB();
   }
-
-  // Métodos
   /**
-   * Añadir un nuevo bien al inventario
-   * @param good - El bien que queremos añadir al inventario
+   * Get the database
    */
-  async addGood(good: Good): Promise<void> {
-    // this.db.data?.goods.push(good);
-    this.db.db.data?.goods.push(good);
-    await this.db.db.write();
-  }
-  async addMerchant(merchant: Merchant): Promise<void> {
-    this.db.db.data?.merchants.push(merchant);
-    await this.db.db.write();
-  }
-  async addClient(client: Client): Promise<void> {
-    this.db.db.data?.customers.push(client);
-    await this.db.db.write();
-  }
-  // funcion para coger el db
   getDB() {
     return this.db;
   }
   
+
+  // Métodos
+  /**
+   * Add a new good to the inventory
+   * @param good - The good we want to add in the invetory
+   */
+  async addGood(good: Good): Promise<void> {
+    // this.db.data?.goods.push(good);
+    // comprobar si el item ya existe en la base de datos
+    const inventoryContain = new InventoryContain(this.db);
+    if (!inventoryContain.checkContain(good)) { // si no existe, añadirlo
+      this.db.db.data?.goods.push(good);
+      await this.db.db.write();
+      // meter el item en el stock
+      this.stock.set(good, 1);
+    } else {
+      // si ya existe, aumentar el stock
+      this.stock.set(good, this.stock.get(good)! + 1);
+    }
+  }
+  /**
+   * Add a new merchant to the system
+   * @param merchant - The merchant we want to add in the inventory
+   */
+  async addMerchant(merchant: Merchant): Promise<void> {
+    const inventoryContain = new InventoryContain(this.db);
+    if (!inventoryContain.checkContain(merchant)) {
+      this.db.db.data?.merchants.push(merchant);
+      await this.db.db.write();
+    } else {
+      // TODO: error
+    }
+  }
+  /**
+   * Add a new client to the system
+   * @param client - The client we want to add in the inventory
+   */
+  async addClient(client: Client): Promise<void> {
+    const inventoryContain = new InventoryContain(this.db);
+    if (!inventoryContain.checkContain(client)) {
+      this.db.db.data?.customers.push(client);
+      await this.db.db.write();
+    } else {
+      // TODO: error
+    }
+  }
 
 }
 

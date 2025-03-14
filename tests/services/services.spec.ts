@@ -58,5 +58,5 @@ describe('Inventory service methods execution', () => {
     // comprobar unicamente el nombre del cliente añadido dentro de la base de datos
     expect(inventory.getDB().db.data.customers.some((c) => c.name === client.name )).toBe(true);
   });
-  // falta hacer más pruebas con cada tipo de objeto de inventario y comprobar que se añaden correctamente
+  // TODO: falta hacer más pruebas con cada tipo de objeto de inventario y comprobar que se añaden correctamente
 });
