@@ -19,6 +19,7 @@ export class Good implements GoodInfo {
    * @param weight - weight of the good (number)
    * @param value - value in Crowns of the good (number)
    * @throws MaterialError if the material is not a valid Materials enum value
+   * @throws IdError if the id is invalid
    */
   constructor(
     public id: number,

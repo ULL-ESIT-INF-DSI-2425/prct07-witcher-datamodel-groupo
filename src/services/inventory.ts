@@ -198,23 +198,40 @@ import { Client } from "../models/client.js";
 
 // clase que representa la base de datos con los métodos para interactuar con ella y llevar un control de los datos y contar el numero de items en la base de datos
 
+
+/**
+ * Represents an Inventory object
+ * 
+ * Class Inventory
+ * @param db - database object to interact with the database
+ * @param stock - stock of the inventory
+ */
 export class Inventory {
-  // Atributos
+
   private db: DB_ROM;
   private stock: Map<Good, number>;
 
-  // Constructor
+  /**
+   * The constructor of the Inventory class
+   */
   constructor() {
     this.db = new DB_ROM();
     this.stock = new Map(); // mapa para llevar un control de los items en la base de datos
   }
-  async initDB() {
+
+  /**
+   * Initialize the inventory database
+   * @returns A promise with the initialization of the database
+   */
+  async initDB(): Promise<void> {
     await this.db.initDB();
   }
+
   /**
    * Get the database
+   * @returns The database object
    */
-  getDB() {
+  getDB(): DB_ROM {
     return this.db;
   }
   
@@ -223,6 +240,14 @@ export class Inventory {
   /**
    * Add a new good to the inventory
    * @param good - The good we want to add in the invetory
+   * @returns A promise with the addition of the good
+   * @example
+   * ```typescript
+   * const good = new Good(1, "Espada", "Una espada de acero", Materials.Steel, 2, 10);
+   * const inventory = new Inventory();
+   * await inventory.initDB();
+   * await inventory.addGood(good);
+   * ```
    */
   async addGood(good: Good): Promise<void> {
     // this.db.data?.goods.push(good);
@@ -237,6 +262,14 @@ export class Inventory {
   /**
    * Add a new merchant to the system
    * @param merchant - The merchant we want to add in the inventory
+   * @returns A promise with the addition of the merchant
+   * @example
+   * ```typescript
+   * const merchant = new Merchant(1, "Geralt", MerchantType.Witcher, Locations.KaerMorhen);
+   * const inventory = new Inventory();
+   * await inventory.initDB();
+   * await inventory.addMerchant(merchant);
+   * ```
    */
   async addMerchant(merchant: Merchant): Promise<void> {
     
@@ -246,6 +279,14 @@ export class Inventory {
   /**
    * Add a new client to the system
    * @param client - The client we want to add in the inventory
+   * @returns A promise with the addition of the client
+   * @example
+   * ```typescript
+   * const client = new Client(1, "Yennefer", "Sorceress", "Human");
+   * const inventory = new Inventory();
+   * await inventory.initDB();
+   * await inventory.addClient(client);
+   * ```
    */
   async addClient(client: Client): Promise<void> {
     this.db.db.data?.customers.push(client);

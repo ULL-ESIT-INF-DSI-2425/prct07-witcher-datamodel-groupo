@@ -17,6 +17,9 @@ export class Merchant implements MerchantInfo {
    * @param name - name of the Merchant (string)
    * @param type - type of job of the Merchant (string)
    * @param location - place of origin of Merchant (string)
+   * @throws IdError if the id is invalid
+   * @throws MerchantError if the type is invalid
+   * @throws LocationError if the location is invalid
    */
   constructor(
     public id: number,

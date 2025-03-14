@@ -45,6 +45,7 @@ export class DB_ROM implements DB {
 
   /** 
    * An method to initilizate the database
+   * @returns A promise with the initialization of the database
    */
   async initDB(): Promise<void> {
     await this.db.read();

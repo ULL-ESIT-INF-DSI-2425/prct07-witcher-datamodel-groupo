@@ -18,6 +18,8 @@ export class Client implements ClientInfo {
    * @param race - race of the Client (Races enum)
    * @param location - place of origin of the Client (Locations Enum)
    * @throws RaceError if the race is invalid
+   * @throws IdError if the id is invalid
+   * @throws LocationError if the location is invalid
    */
   constructor(
     public id: number,
