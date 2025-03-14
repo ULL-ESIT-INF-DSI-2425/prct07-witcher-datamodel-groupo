@@ -11,7 +11,6 @@ export class MaterialError extends AppError {
    * Constructor
    * 
    * @param message - error message
-   * @param status - error status
    */
   constructor(message: string) {
     super(message);

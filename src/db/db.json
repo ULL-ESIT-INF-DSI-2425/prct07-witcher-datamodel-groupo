@@ -15,54 +15,6 @@
       "material": "Makaham Steel",
       "weight": 3.5,
       "value": 500
-    },
-    {
-      "id": 0,
-      "name": "Makaham Steel Sword",
-      "description": "A sword made of the finest steel from Mahakam",
-      "material": "Makaham Steel",
-      "weight": 3.5,
-      "value": 500
-    },
-    {
-      "id": 0,
-      "name": "Makaham Steel Sword",
-      "description": "A sword made of the finest steel from Mahakam",
-      "material": "Makaham Steel",
-      "weight": 3.5,
-      "value": 500
-    },
-    {
-      "id": 0,
-      "name": "Makaham Steel Sword",
-      "description": "A sword made of the finest steel from Mahakam",
-      "material": "Makaham Steel",
-      "weight": 3.5,
-      "value": 500
-    },
-    {
-      "id": 0,
-      "name": "Makaham Steel Sword",
-      "description": "A sword made of the finest steel from Mahakam",
-      "material": "Makaham Steel",
-      "weight": 3.5,
-      "value": 500
-    },
-    {
-      "id": 0,
-      "name": "Makaham Steel Sword",
-      "description": "A sword made of the finest steel from Mahakam",
-      "material": "Makaham Steel",
-      "weight": 3.5,
-      "value": 500
-    },
-    {
-      "id": 0,
-      "name": "Makaham Steel Sword",
-      "description": "A sword made of the finest steel from Mahakam",
-      "material": "Makaham Steel",
-      "weight": 3.5,
-      "value": 500
     }
   ],
   "merchants": [
@@ -77,93 +29,8 @@
       "name": "Yennefer",
       "type": "Alchemist",
       "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Yennefer",
-      "type": "Alchemist",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Yennefer",
-      "type": "Alchemist",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Yennefer",
-      "type": "Alchemist",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Yennefer",
-      "type": "Alchemist",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Yennefer",
-      "type": "Alchemist",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Yennefer",
-      "type": "Alchemist",
-      "location": "Kaer Morhen"
     }
   ],
-  "customers": [
-    {
-      "id": 0,
-      "name": "Geralt",
-      "race": "Witcher",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Geralt",
-      "race": "Witcher",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Geralt",
-      "race": "Witcher",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Geralt",
-      "race": "Witcher",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Geralt",
-      "race": "Witcher",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Geralt",
-      "race": "Witcher",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Geralt",
-      "race": "Witcher",
-      "location": "Kaer Morhen"
-    },
-    {
-      "id": 0,
-      "name": "Geralt",
-      "race": "Witcher",
-      "location": "Kaer Morhen"
-    }
-  ],
+  "customers": [],
   "transactions": []
 }

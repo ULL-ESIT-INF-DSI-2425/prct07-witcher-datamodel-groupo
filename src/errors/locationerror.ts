@@ -1,5 +1,5 @@
 import { Locations } from '../enums/locations.js';
-import { AppError } from './apperror';
+import { AppError } from './apperror.js';
 
 /**
  * LocationError class
@@ -22,7 +22,7 @@ export class LocationError extends AppError {
    * 
    * @param location - The location to validate
    */
-  static validate(location: Locations) {
+  static validate(location: Locations): void {
     if (!Object.values(Locations).includes(location)) {
       throw new AppError('I have no idea where that is! You might as well be from the Moon!');
     }
