@@ -188,7 +188,6 @@
 //     return order === "asc" ? (valueA > valueB ? 1 : -1) : valueA < valueB ? 1 : -1;
 //   });
 // }
-import { InventoryContain } from "./inventory_contain.js";
 import { DB_ROM } from "../db/db_class.js";
 import { Good } from "../models/good.js";
 import { Merchant } from "../models/merchant.js";
@@ -228,42 +227,29 @@ export class Inventory {
   async addGood(good: Good): Promise<void> {
     // this.db.data?.goods.push(good);
     // comprobar si el item ya existe en la base de datos
-    const inventoryContain = new InventoryContain(this.db);
-    if (!inventoryContain.checkContain(good)) { // si no existe, añadirlo
-      this.db.db.data?.goods.push(good);
-      await this.db.db.write();
-      // meter el item en el stock
-      this.stock.set(good, 1);
-    } else {
-      // si ya existe, aumentar el stock
-      this.stock.set(good, this.stock.get(good)! + 1);
-    }
+    this.db.db.data?.goods.push(good);
+    await this.db.db.write();
+    // meter el item en el stock
+    this.stock.set(good, 1);
+    // si ya existe, aumentar el stock
+    this.stock.set(good, this.stock.get(good)! + 1);
   }
   /**
    * Add a new merchant to the system
    * @param merchant - The merchant we want to add in the inventory
    */
   async addMerchant(merchant: Merchant): Promise<void> {
-    const inventoryContain = new InventoryContain(this.db);
-    if (!inventoryContain.checkContain(merchant)) {
-      this.db.db.data?.merchants.push(merchant);
-      await this.db.db.write();
-    } else {
-      // TODO: error
-    }
+    
+    this.db.db.data?.merchants.push(merchant);
+    await this.db.db.write();
   }
   /**
    * Add a new client to the system
    * @param client - The client we want to add in the inventory
    */
   async addClient(client: Client): Promise<void> {
-    const inventoryContain = new InventoryContain(this.db);
-    if (!inventoryContain.checkContain(client)) {
-      this.db.db.data?.customers.push(client);
-      await this.db.db.write();
-    } else {
-      // TODO: error
-    }
+    this.db.db.data?.customers.push(client);
+    await this.db.db.write();
   }
 
 }

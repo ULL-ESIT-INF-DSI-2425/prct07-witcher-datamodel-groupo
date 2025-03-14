@@ -13,6 +13,4 @@ export class AppError extends Error {
     super(message);
     this.name = "AppError";
   }
-
-  static validate(type: T) {};
 }

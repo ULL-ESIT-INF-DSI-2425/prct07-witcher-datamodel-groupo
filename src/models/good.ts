@@ -1,6 +1,8 @@
 import { GoodInfo } from "../interfaces/goodinfo.js";
 import { Materials } from "../enums/materials.js";
 import { MaterialError } from "../errors/materialerror.js";
+import { IdError } from "../errors/iderror.js";
+
 
 /**
  * Represents a Good type object with its information
@@ -26,8 +28,7 @@ export class Good implements GoodInfo {
     public weight: number,
     public value: number,
   ) {
-    if (!Object.values(Materials).includes(material)) {
-      throw new MaterialError(`Invalid material: ${material}`);
-    }
+    MaterialError.validate(this.material);
+    IdError.validate(this.id);
   }
 }

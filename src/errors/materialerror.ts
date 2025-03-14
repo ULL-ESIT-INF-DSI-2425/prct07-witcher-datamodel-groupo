@@ -1,4 +1,5 @@
-import { AppError } from "../errors/apperror";
+import { AppError } from "../errors/apperror.js";
+import { Materials } from "../enums/materials.js";
 
 /**
  * MaterialError
@@ -13,6 +14,18 @@ export class MaterialError extends AppError {
    * @param status - error status
    */
   constructor(message: string) {
-    super(message, status);
+    super(message);
+    this.name = 'MaterialError';
+  }
+
+  /**
+   * Validates if the material is valid
+   * 
+   * @param material - material to be validated
+   */
+  static validate(material: Materials): void {
+    if (!Object.values(Materials).includes(material)) {
+      throw new AppError('Unknown Material! Do not try to fool us bastard!')
+    }
   }
 }

@@ -2,6 +2,8 @@ import { Races } from "../enums/races.js";
 import { Locations } from "../enums/locations.js";
 import { ClientInfo } from "../interfaces/clientinfo.js";
 import { RaceError } from "../errors/raceerror.js";
+import { LocationError } from "../errors/locationerror.js";
+import { IdError } from "../errors/iderror.js";
 
 /**
  * Represents a Client of the Inn
@@ -24,5 +26,7 @@ export class Client implements ClientInfo {
     public location: Locations,
   ) {
     RaceError.validate(this.race);
+    LocationError.validate(this.location);
+    IdError.validate(this.id);
   }
 }

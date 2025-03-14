@@ -1,11 +1,11 @@
-import { DB_ROM } from "../db/db_class.js";
+import { DB_Inventory } from "../db/db_inventory.js";
 
 // clase generica para comprobar si un objeto esta dentro de la base de datos
 
 export class InventoryContain<T> {
-  private inventory: DB_ROM;
+  private inventory: DB_Inventory;
 
-  constructor(inventory_: DB_ROM) {
+  constructor(inventory_: DB_Inventory) {
     this.inventory = inventory_;
   }
 

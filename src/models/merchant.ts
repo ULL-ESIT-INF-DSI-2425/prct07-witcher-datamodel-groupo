@@ -1,6 +1,9 @@
 import { MerchantInfo } from "../interfaces/merchantinfo.js"
 import { Locations } from "../enums/locations.js"
 import { MerchantType } from "../enums/merchantType.js"
+import { MerchantError } from "../errors/merchanterror.js"
+import { LocationError } from "../errors/locationerror.js"
+import { IdError } from "../errors/iderror.js"
 
 /**
  * Represents a Merchant type object and its information
@@ -18,8 +21,11 @@ export class Merchant implements MerchantInfo {
   constructor(
     public id: number,
     public name: string,
-    // TODO: gestion de errores Tipo y Localizaciones
     public type: MerchantType,
     public location: Locations
-  ) {}
+  ) {
+    IdError.validate(this.id);
+    MerchantError.validate(this.type);
+    LocationError.validate(this.location);
+  }
 }
