@@ -17,6 +17,13 @@
       "location": "Kaer Morhen"
     }
   ],
-  "customers": [],
+  "customers": [
+    {
+      "id": 0,
+      "name": "Geralt",
+      "race": "Witcher",
+      "location": "Kaer Morhen"
+    }
+  ],
   "transactions": []
 }

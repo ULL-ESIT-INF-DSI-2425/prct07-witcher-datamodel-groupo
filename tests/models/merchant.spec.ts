@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Merchant } from "../../src/models/merchant.ts";
-import { MerchantType } from "../../src/enums/type.ts";
+import { MerchantType } from "../../src/enums/merchantType.ts";
 import { Locations } from "../../src/enums/locations.ts";
 
 describe("Merchant class", () => {
