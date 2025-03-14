@@ -55,5 +55,8 @@ describe('Inventory service methods execution', () => {
     const client = new Client(0, 'Geralt', Races.WITCHER, Locations.KAER_MORHEN);
     await inventory.addClient(client);
     expect(inventory).toBeDefined();
+    // comprobar unicamente el nombre del cliente añadido dentro de la base de datos
+    expect(inventory.getDB().db.data.customers.some((c) => c.name === client.name )).toBe(true);
   });
+  // falta hacer más pruebas con cada tipo de objeto de inventario y comprobar que se añaden correctamente
 });

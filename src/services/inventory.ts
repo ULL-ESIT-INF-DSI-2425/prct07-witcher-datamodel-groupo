@@ -229,7 +229,10 @@ export class Inventory {
     this.db.db.data?.customers.push(client);
     await this.db.db.write();
   }
-  
+  // funcion para coger el db
+  getDB() {
+    return this.db;
+  }
   
 
 }
