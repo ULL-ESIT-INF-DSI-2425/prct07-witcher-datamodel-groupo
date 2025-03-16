@@ -11,6 +11,11 @@ import { IdError } from "../errors/iderror.js"
  * Class Merchant
  */
 export class Merchant implements MerchantInfo {
+  accessor _id: number;
+  accessor _name: string;
+  accessor _type: MerchantType;
+  accessor _location: Locations;
+
   /**
    * Constructs a Merchant object
    * @param id - identification of the Merchant (number)
@@ -27,8 +32,13 @@ export class Merchant implements MerchantInfo {
     public type: MerchantType,
     public location: Locations
   ) {
-    IdError.validate(this.id);
-    MerchantError.validate(this.type);
-    LocationError.validate(this.location);
+    this._id = id;
+    this._name = name;
+    this._type = type;
+    this._location = location;
+    
+    IdError.validate(this._id);
+    MerchantError.validate(this._type);
+    LocationError.validate(this._location);
   }
 }

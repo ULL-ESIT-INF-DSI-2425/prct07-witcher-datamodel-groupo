@@ -38,21 +38,21 @@ describe('Inventory service methods execution', () => {
   it ('Should add a good to the database', async () => {
     const inventory = new Inventory();
     await inventory.initDB();
-    const good = new Good(0, 'Makaham Steel Sword', 'A sword made of the finest steel from Mahakam', Materials.MAKAHAM_STEEL, 3.5, 500);
+    const good = new Good(1, 'Makaham Steel Sword', 'A sword made of the finest steel from Mahakam', Materials.MAKAHAM_STEEL, 3.5, 500);
     await inventory.addGood(good);
     expect(inventory).toBeDefined();
   });
   it ('Should add a merchant to the database', async () => {
     const inventory = new Inventory();
     await inventory.initDB();
-    const merchant = new Merchant(0, 'Yennefer', MerchantType.ALCHEMIST, Locations.KAER_MORHEN);
+    const merchant = new Merchant(2, 'Yennefer', MerchantType.ALCHEMIST, Locations.KAER_MORHEN);
     await inventory.addMerchant(merchant);
     expect(inventory).toBeDefined();
   });
   it ('Should add a client to the database', async () => {
     const inventory = new Inventory();
     await inventory.initDB();
-    const client = new Client(0, 'Geralt', Races.WITCHER, Locations.KAER_MORHEN);
+    const client = new Client(3, 'Geralt', Races.WITCHER, Locations.KAER_MORHEN);
     await inventory.addClient(client);
     expect(inventory).toBeDefined();
     // comprobar unicamente el nombre del cliente añadido dentro de la base de datos

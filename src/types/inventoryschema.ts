@@ -7,6 +7,4 @@ import { Client } from "../models/client.js";
  */
 export type InventorySchema = {
   goods: Good[];
-  merchants: Merchant[];
-  clients: Client[];
 };

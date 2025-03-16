@@ -10,6 +10,12 @@ import { IdError } from "../errors/iderror.js";
  * Class Good
  */
 export class Good implements GoodInfo {
+  accessor _id: number;
+  accessor _name: string;
+  accessor _description: string;
+  accessor _material: Materials;
+  accessor _weight: number;
+  accessor _value: number;
   /**
    * Constructs a Good type object
    * @param id - identification number of the good (number)
@@ -29,7 +35,13 @@ export class Good implements GoodInfo {
     public weight: number,
     public value: number,
   ) {
-    MaterialError.validate(this.material);
-    IdError.validate(this.id);
+    this._id = id;
+    this._name = name;
+    this._description = description;
+    this._material = material;
+    this._weight = weight;
+    this._value = value;
+    MaterialError.validate(this._material);
+    IdError.validate(this._id);
   }
 }

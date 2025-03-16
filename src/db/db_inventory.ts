@@ -12,8 +12,9 @@ import { InventorySchema } from "../types/inventoryschema.js";
  * @param db - The database object
  */
 export class DB_Inventory implements DBInventory {
-  public adapter: JSONFile<InventorySchema>;
-  public db: Low<InventorySchema>;
+  accessor _adapter: JSONFile<InventorySchema>;
+  accessor _db: Low<InventorySchema>;
+
 
   /**
    * The constructor of the class
@@ -21,12 +22,17 @@ export class DB_Inventory implements DBInventory {
    * @param initialData - the first data we want to insert in the database.json
    */
   constructor(
+    public adapter: JSONFile<InventorySchema>,
+    public db: Low<InventorySchema>,
     public filePath: string = "./src/db/db_inventory.json",
-    public initialData: InventorySchema = { goods: [], merchants: [], clients: [] }
+    public initialData: InventorySchema = { goods: [] }
   ) {
+    this._adapter = adapter;
+    this._db = db;
     this.adapter = new JSONFile<InventorySchema>(filePath);
-    this.db = new Low<InventorySchema>(this.adapter, initialData);
+    this.db= new Low<InventorySchema>(this.adapter, initialData);
   }
+  // constructor por defecto
 
   /**
    * An method to initilizate the database

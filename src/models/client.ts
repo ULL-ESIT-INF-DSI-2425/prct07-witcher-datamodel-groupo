@@ -11,6 +11,10 @@ import { IdError } from "../errors/iderror.js";
  * Class Client
  */
 export class Client implements ClientInfo {
+  accessor _id: number;
+  accessor _name: string;
+  accessor _race: Races;
+  accessor _location: Locations;
   /**
    * Construct a Client type object
    * @param id - identification number of the Client (number)
@@ -27,8 +31,12 @@ export class Client implements ClientInfo {
     public race: Races,
     public location: Locations,
   ) {
-    RaceError.validate(this.race);
-    LocationError.validate(this.location);
-    IdError.validate(this.id);
+    this._id = id;
+    this._name = name;
+    this._race = race;
+    this._location = location;
+    RaceError.validate(this._race);
+    LocationError.validate(this._location);
+    IdError.validate(this._id);
   }
 }

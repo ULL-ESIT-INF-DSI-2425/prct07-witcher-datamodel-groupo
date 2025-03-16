@@ -1,6 +1,9 @@
 import { InventoryContain } from "./inventory_contain.js";
 import { DB_Inventory } from "../db/db_inventory.js";
 import { Good } from "../models/good.js";
+import { JSONFile } from "lowdb/node";
+import { Low } from "lowdb";
+import { InventorySchema } from "../types/inventoryschema.js";
 
 /**
  * Represents a Inventory Stock object
@@ -17,7 +20,11 @@ export class InventoryStock {
    * The constructor of the InventoryStock class
    */
   constructor() {
-    this.inventory = new DB_Inventory();
+    // inicializar el inventario con la base de datos
+    const adapter = new JSONFile<InventorySchema>("./src/db/db_inventory.json");
+    const db = new Low<InventorySchema>(adapter, { goods: [] });
+
+    this.inventory = new DB_Inventory(adapter, db);
     this.stock = new Map();
   }
   /**
@@ -34,6 +41,9 @@ export class InventoryStock {
    */
   getDB(): DB_Inventory {
     return this.inventory;
+  }
+  getStock(): Map<Good, number> {
+    return this.stock;
   }
   
   /**
@@ -56,6 +66,16 @@ export class InventoryStock {
       this.stock.set(good, 1);
     } else { // in case the good is already in the inventory
       this.stock.set(good, this.stock.get(good)! + 1);
+    }
+  }
+  async removeGood(good: Good): Promise<void> {
+    const inventoryContain = new InventoryContain(this.inventory);
+    if (inventoryContain.checkContain(good) && this.stock.get(good)! > 0) {
+      this.stock.set(good, this.stock.get(good)! - 1);
+    } else if (!inventoryContain.checkContain(good)) {
+      throw new Error("The good is not in the inventory"); // TODO: Create a custom error
+    } else if (inventoryContain.checkContain(good) && this.stock.get(good)! === 0) {
+      throw new Error("The good is out of stock"); // TODO: Create a custom error
     }
   }
 }

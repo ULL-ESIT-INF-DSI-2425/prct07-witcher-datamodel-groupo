@@ -1,0 +1,12 @@
+{
+  "goods": [
+    {
+      "id": 1,
+      "name": "Makaham steel sword",
+      "description": "example",
+      "material": "Makaham Steel",
+      "weight": 3.5,
+      "value": 500
+    }
+  ]
+}
