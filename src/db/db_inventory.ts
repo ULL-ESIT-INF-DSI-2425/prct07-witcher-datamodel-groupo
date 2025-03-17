@@ -25,7 +25,7 @@ export class DB_Inventory implements DBInventory {
     public adapter: JSONFile<InventorySchema>,
     public db: Low<InventorySchema>,
     public filePath: string = "./src/db/db_inventory.json",
-    public initialData: InventorySchema = { goods: [] }
+    public initialData: InventorySchema = { goods: [], merchant: [], client: [] }
   ) {
     this._adapter = adapter;
     this._db = db;
