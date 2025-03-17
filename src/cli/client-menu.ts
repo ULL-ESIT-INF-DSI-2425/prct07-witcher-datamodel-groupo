@@ -1,3 +1,5 @@
+import inquirer  from "inquirer"
+
 // Archivo gestionarClientes.ts
 export const gestionarClientesMenu = async () => {
   let managing = true;
@@ -7,7 +9,7 @@ export const gestionarClientesMenu = async () => {
     const { action } = await inquirer.prompt([
       {
         type: 'list',
-        name: 'accion',
+        name: 'action',
         message: 'Gestión de clientes:',
         choices: [
           '➕ Añadir cliente', 

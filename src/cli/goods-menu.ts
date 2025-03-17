@@ -34,12 +34,54 @@
 // }
 
 import inquirer from 'inquirer';
-import { addGood } from '../acciones/bienes/addGood';
-import { deleteGood } from '../acciones/bienes/deleteGood';
-import { listGoods } from '../acciones/bienes/listGoods';
-import { updateGood } from '../acciones/bienes/updateGood';
+//import { addGood } from '../acciones/bienes/addGood.js';
+// import { deleteGood } from '../acciones/bienes/deleteGood';
+// import { listGoods } from '../acciones/bienes/listGoods';
+// import { updateGood } from '../acciones/bienes/updateGood';
 
-export const gestionarBienesMenu = async () => {
+
+export const addGood = async () => {
+  const answers = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'id',
+      message: 'ID del bien:',
+    },
+    {
+      type: 'input',
+      name: 'name',
+      message: 'Nombre del bien:',
+    },
+    {
+      type: 'input',
+      name: 'description',
+      message: 'Descripción del bien:',
+    },
+    {
+      type: 'input',
+      name: 'material',
+      message: 'Material del bien:',
+    },
+    {
+      type: 'input',
+      name: 'weight',
+      message: 'Peso del bien:',
+    },
+    {
+      type: 'input',
+      name: 'value',
+      message: 'Valor del bien:',
+    },
+  ]);
+}
+
+
+
+
+
+
+
+export const GoodMenu = async () => {
   let managing = true;
 
   while (managing) {
