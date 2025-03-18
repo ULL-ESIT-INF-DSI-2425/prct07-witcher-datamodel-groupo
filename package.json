@@ -8,7 +8,8 @@
     "prettier": "prettier --write .",
     "doc": "typedoc",
     "test": "npx vitest run",
-    "coverage": "npx vitest run --coverage --coverage.include 'src/**/*'"
+    "coverage": "npx vitest run --coverage --coverage.include 'src/**/*'",
+    "test-inventory-db": "rm -f ./src/db/db_inventory.json && npx vitest run ./tests/services/inventory_contains.spec.ts"
   },
   "repository": {
     "type": "git",

@@ -21,4 +21,5 @@ describe('Inventory test', () => {
     await inventory.initDB();
     expect(inventory).toBeDefined();
   });
+  
 });

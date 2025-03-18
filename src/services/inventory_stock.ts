@@ -1,4 +1,3 @@
-import { InventoryContain } from "./inventory_contain.js";
 import { DB_Inventory } from "../db/db_inventory.js";
 import { Good } from "../models/good.js";
 import { Merchant } from "../models/merchant.js";
@@ -21,12 +20,13 @@ export class InventoryStock {
   /**
    * The constructor of the InventoryStock class
    */
-  constructor() {
+  constructor(inventory_: DB_Inventory) {
     // inicializar el inventario con la base de datos
     const adapter = new JSONFile<InventorySchema>("./src/db/db_inventory.json");
     const db = new Low<InventorySchema>(adapter, { goods: [], merchant: [], client: [] });
-
-    this.inventory = new DB_Inventory(adapter, db);
+    inventory_.db = db;
+    inventory_.adapter = adapter;
+    this.inventory = inventory_;
     this.stock = new Map();
   }
   /**
@@ -61,42 +61,26 @@ export class InventoryStock {
    * ```
    */
   async addGood(good: Good): Promise<void> {
-    // const inventoryContain = new InventoryContain(this.inventory);
-    // if (!inventoryContain.checkContain(good)) {
-    //   this.inventory.db.data?.goods.push(good);
-    //   await this.inventory.db.write();
-    //   this.stock.set(good, 1);
-    // } else { // in case the good is already in the inventory
-    //   this.stock.set(good, this.stock.get(good)! + 1);
-    // }
     
-    // usar inventoryContain para comprobar si el item ya existe en la base de datos
-    const inventoryContain = new InventoryContain(this.inventory);
-    if (!inventoryContain.checkContain(good)) {
-      this.inventory.db.data?.goods.push(good);
+    if (!this.inventory.db.data.goods.some((g) => g.id === good.id)) {
+      this.inventory.db.data.goods.push(good);
       await this.inventory.db.write();
       this.stock.set(good, 1);
-    } else { // in case the good is already in the inventory
-      this.stock.set(good, this.stock.get(good)! + 1);
+    } else {
+      // No introduce el good en la base de datos, solo incrementa el stock
+      this.stock.set(good, (this.stock.get(good) ?? 0) + 1);
     }
+    await this.inventory.db.write();
   }
   async removeGood(good: Good): Promise<void> {
-    // const inventoryContain = new InventoryContain(this.inventory);
-    // if (inventoryContain.checkContain(good) && this.stock.get(good)! > 0) {
-    //   this.stock.set(good, this.stock.get(good)! - 1);
-    // } else if (!inventoryContain.checkContain(good)) {
-    //   throw new Error("The good is not in the inventory"); // TODO: Create a custom error
-    // } else if (inventoryContain.checkContain(good) && this.stock.get(good)! === 0) {
-    //   throw new Error("The good is out of stock"); // TODO: Create a custom error
-    // }
-    const inventoryContain = new InventoryContain(this.inventory);
-    if (inventoryContain.checkContain(good) && this.stock.get(good)! > 0) {
+    if (this.inventory.db.data.goods.some((g) => g.id === good.id) && this.stock.get(good)! > 0) {
       this.stock.set(good, this.stock.get(good)! - 1);
-    } else if (!inventoryContain.checkContain(good)) {
+    } else if (!this.inventory.db.data.goods.some((g) => g.id === good.id)) {
       throw new Error("The good is not in the inventory"); // TODO: Create a custom error
     } else {
       throw new Error("The good is out of stock"); // TODO: Create a custom error
     }
+    await this.inventory.db.write();
   }
   async addMerchant(merchant: Merchant): Promise<void> {
     // if (!this.inventory.db.data?.merchant.some((m) => m === merchant)) {
@@ -105,8 +89,7 @@ export class InventoryStock {
     // } else {
     //   throw new Error("The merchant is already in the inventory");
     // }
-    const inventoryContain = new InventoryContain(this.inventory);
-    if (!inventoryContain.checkContain(merchant)) {
+    if (!this.inventory.db.data?.merchant.some((m) => m.id === merchant.id)) {
       this.inventory.db.data?.merchant.push(merchant);
       await this.inventory.db.write();
     } else {
@@ -114,30 +97,30 @@ export class InventoryStock {
     }
   }
   async removeMerchant(merchant: Merchant): Promise<void> {
-    const inventoryContain = new InventoryContain(this.inventory);
-    if (inventoryContain.checkContain(merchant)) {
-      this.inventory.db.data.merchant = this.inventory.db.data.merchant.filter((m) => m !== merchant); // TODO: Check if this works
+    if (this.inventory.db.data.merchant.some((m) => m.id === merchant.id)) {
+      this.inventory.db.data.merchant = this.inventory.db.data.merchant.filter((m) => m.id !== merchant.id); // TODO: Check if this works
       await this.inventory.db.write();
     } else {
       throw new Error("The merchant is not in the inventory");
     }
+    await this.inventory.db.write();
   }
   async addClient(client: Client): Promise<void> {
-    const inventoryContain = new InventoryContain(this.inventory);
-    if (!inventoryContain.checkContain(client)) {
+    if (!this.inventory.db.data?.client.some((c) => c.id === client.id)) {
       this.inventory.db.data?.client.push(client);
       await this.inventory.db.write();
     } else {
       throw new Error("The client is already in the inventory");
     }
+    await this.inventory.db.write();
   }
   async removeClient(client: Client): Promise<void> {
-    const inventoryContain = new InventoryContain(this.inventory);
-    if (inventoryContain.checkContain(client)) {
-      this.inventory.db.data.client = this.inventory.db.data.client.filter((c) => c !== client); // TODO: Check if this works
+    if (this.inventory.db.data.client.some((c) => c.id === client.id)) {
+      this.inventory.db.data.client = this.inventory.db.data.client.filter((c) => c.id !== client.id); // TODO: Check if this works
       await this.inventory.db.write();
     } else {
       throw new Error("The client is not in the inventory");
     }
+    await this.inventory.db.write();
   }
 }

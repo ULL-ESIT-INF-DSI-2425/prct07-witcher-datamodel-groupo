@@ -1,38 +1,77 @@
-import { describe, expect, it } from "vitest";
-import { InventoryContain } from "../../src/services/inventory_contain.js";
-import { Good } from "../../src/models/good.js";
-import { Materials } from "../../src/enums/materials.ts";
+import { describe, it, expect } from "vitest";
 import { DB_Inventory } from "../../src/db/db_inventory.ts";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 import { InventorySchema } from "../../src/types/inventoryschema.ts";
+import { Good } from "../../src/models/good.ts";
+import { Materials } from "../../src/enums/materials.ts";
+import { Merchant } from "../../src/models/merchant.ts";
+import { MerchantType } from "../../src/enums/merchantType.ts";
+import { Client } from "../../src/models/client.ts";
+import { Races } from "../../src/enums/races.ts";
+import { Locations } from "../../src/enums/locations.ts";
+import { InventoryStock } from "../../src/services/inventory_stock.ts";
 
-// TODO: Implement tests for the InventoryContains class
 
-describe('InventoryContain service initialize and methods', () => {
-  it('Should be defined', () => {
-    expect(InventoryContain).toBeDefined();
+describe ('Inventory test db', () => {
+  const adaptader: JSONFile<InventorySchema> = new JSONFile<InventorySchema>('./src/db/db_inventory.json');
+  const db: Low<InventorySchema> = new Low<InventorySchema>(adaptader, { goods: [], merchant: [], client: [] });
+  const inventory = new DB_Inventory(adaptader, db);
+  const inventoryStock = new InventoryStock(inventory);
+  it ('should be defined', () => {
+    expect(inventoryStock).toBeDefined();
   });
-  it('Should create a new instance of InventoryContain', () => {
-    const 
+  it ('should have a method to initialize the database', async () => {
+    await inventory.initDB();
+    expect(inventory).toBeDefined();
+    await inventoryStock.initDB();
+    expect(inventoryStock).toBeDefined();
   });
-  it('Should have a method to check if the object is inside the inventory', () => {
-    const inventory = new DB_Inventory();
+  it ('should have a method to get the database', () => {
+    expect(inventoryStock.getDB()).toBeDefined();
+  });
+  it ('should have a method to get the stock', () => {
+    expect(inventoryStock.getStock()).toBeDefined();
+  });
+  it ('should have a method to add a good to the inventory', async () => {
     const good = new Good(1, 'Makaham Steel Sword', 'A sword made of the finest steel from Mahakam', Materials.MAKAHAM_STEEL, 3.5, 500);
-    inventory.db.data.goods.push(good);
-    const inventoryContain = new InventoryContain<Good>(inventory);
-    expect(inventoryContain.checkContain(good)).toBe(true);
+    await inventoryStock.addGood(good);
+    expect(inventoryStock.getStock().get(good)).toBeDefined();
+    // test of incrementing the stock of the good
+    await inventoryStock.addGood(good);
+    await inventoryStock.addGood(good);
+    expect(inventoryStock.getStock().get(good)).toBe(3);
+    
   });
-  it('Should have a method to check if the object is not inside the inventory', () => {
-    const inventory = new DB_Inventory();
-    const merchant = new Merchant(2, 'Yennefer', MerchantType.ALCHEMIST, Locations.KAER_MORHEN);
-    const inventoryContain = new InventoryContain<Merchant>(inventory);
-    expect(inventoryContain.checkContain(merchant)).toBe(false);
+  it ('should have a method to add a Merchant to the inventory', async () => {
+    const merchant = new Merchant(2, 'Yennefer', MerchantType.ALCHEMIST, Locations.KAER_MORHEN);    
+    await inventoryStock.addMerchant(merchant);
+    expect(inventoryStock.getDB().db.data?.merchant).toBeDefined();
+    // usar some para comprobar si el merchant esta en la base de datos
+    expect(inventoryStock.getDB().db.data?.merchant.some((m) => m.name === merchant.name)).toBe(true);
   });
-  it('Should have a method to check if the object is not inside the inventory', () => {
-    const inventory = new DB_Inventory();
+  it ('should have a method to add a Client to the inventory', async () => {
     const client = new Client(3, 'Geralt', Races.WITCHER, Locations.KAER_MORHEN);
-    const inventoryContain = new InventoryContain<Client>(inventory);
-    expect(inventoryContain.checkContain(client)).toBe(false);
+    await inventoryStock.addClient(client);
+    expect(inventoryStock.getDB().db.data?.client).toBeDefined();
+    // usar some para comprobar si el cliente esta en la base de datos
+    expect(inventoryStock.getDB().db.data?.client.some((c) => c.name === client.name)).toBe(true);
+  });
+  it ('should have a method to remove a good from the inventory', async () => {
+    const good = new Good(1, 'Makaham Steel Sword', 'A sword made of the finest steel from Mahakam', Materials.MAKAHAM_STEEL, 3.5, 500);
+    await inventoryStock.addGood(good);
+    await inventoryStock.addGood(good);
+    await inventoryStock.removeGood(good);
+    expect(inventoryStock.getStock().get(good)).toBe(1);
+  });
+  it ('should have a method to remove a Merchant from the inventory', async () => {
+    const merchant = new Merchant(2, 'Yennefer', MerchantType.ALCHEMIST, Locations.KAER_MORHEN);    
+    await inventoryStock.removeMerchant(merchant);
+    expect(inventoryStock.getDB().db.data?.merchant.some((m) => m.name === merchant.name)).toBe(false);
+  });
+  it ('should have a method to remove a Client from the inventory', async () => {
+    const client = new Client(3, 'Geralt', Races.WITCHER, Locations.KAER_MORHEN);
+    await inventoryStock.removeClient(client);
+    expect(inventoryStock.getDB().db.data?.client.some((c) => c.name === client.name)).toBe(false);
   });
 });

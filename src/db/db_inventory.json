@@ -2,11 +2,13 @@
   "goods": [
     {
       "id": 1,
-      "name": "Makaham steel sword",
-      "description": "example",
+      "name": "Makaham Steel Sword",
+      "description": "A sword made of the finest steel from Mahakam",
       "material": "Makaham Steel",
       "weight": 3.5,
       "value": 500
     }
-  ]
+  ],
+  "merchant": [],
+  "client": []
 }
