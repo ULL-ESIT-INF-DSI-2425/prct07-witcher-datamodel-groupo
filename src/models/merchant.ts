@@ -8,7 +8,6 @@ import { IdError } from "../errors/iderror.js"
 /**
  * Represents a Merchant type object and its information
  * 
- * Class Merchant
  */
 export class Merchant implements MerchantInfo {
   accessor _id: number;
