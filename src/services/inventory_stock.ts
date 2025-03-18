@@ -72,6 +72,20 @@ export class InventoryStock {
     }
     await this.inventory.db.write();
   }
+
+  /**
+   * Remove a good from the inventory
+   * @param good - The good we want to remove from the inventory
+   * @returns A promise with the removal of the good
+   * @example
+   * ```typescript
+   * const good = new Good(1, "Espada", "Una espada de acero", Materials.Steel, 2, 10);
+   * const inventoryStock = new InventoryStock();
+   * await inventoryStock.initDB();
+   * await inventoryStock.addGood(good);
+   * await inventoryStock.removeGood(good);
+   * ```
+   */
   async removeGood(good: Good): Promise<void> {
     if (this.inventory.db.data.goods.some((g) => g.id === good.id) && this.stock.get(good)! > 0) {
       this.stock.set(good, this.stock.get(good)! - 1);
@@ -82,6 +96,8 @@ export class InventoryStock {
     }
     await this.inventory.db.write();
   }
+
+
   async addMerchant(merchant: Merchant): Promise<void> {
     // if (!this.inventory.db.data?.merchant.some((m) => m === merchant)) {
     //   this.inventory.db.data?.merchant.push(merchant);
@@ -96,6 +112,8 @@ export class InventoryStock {
       throw new Error("The merchant is already in the inventory");
     }
   }
+
+
   async removeMerchant(merchant: Merchant): Promise<void> {
     if (this.inventory.db.data.merchant.some((m) => m.id === merchant.id)) {
       this.inventory.db.data.merchant = this.inventory.db.data.merchant.filter((m) => m.id !== merchant.id); // TODO: Check if this works
@@ -105,6 +123,8 @@ export class InventoryStock {
     }
     await this.inventory.db.write();
   }
+
+  
   async addClient(client: Client): Promise<void> {
     if (!this.inventory.db.data?.client.some((c) => c.id === client.id)) {
       this.inventory.db.data?.client.push(client);
@@ -114,6 +134,7 @@ export class InventoryStock {
     }
     await this.inventory.db.write();
   }
+
   async removeClient(client: Client): Promise<void> {
     if (this.inventory.db.data.client.some((c) => c.id === client.id)) {
       this.inventory.db.data.client = this.inventory.db.data.client.filter((c) => c.id !== client.id); // TODO: Check if this works
@@ -123,4 +144,25 @@ export class InventoryStock {
     }
     await this.inventory.db.write();
   }
+
+/**
+ * Check the stock of all goods in the inventory
+ * @returns A promise with an array of goods and their stock
+ */
+  // async checkGoodStock(): Promise<{ id: number; name: string; quantity: number; value: number }[]> {
+  //   await this.inventory.db.read(); // Asegurar que tenemos los datos más recientes de la base de datos
+
+  //   if (!this.inventory.db.data?.goods || this.inventory.db.data.goods.length === 0) {
+  //     return []; // Si no hay bienes en la base de datos, retornamos una lista vacía
+  //   }
+
+  //   // Crear un array con la información del stock de cada bien
+  //   return this.inventory.db.data.goods.map((good) => ({
+  //     id: good.id,
+  //     name: good.name,
+  //     quantity: this.stock.get(good) ?? 0, // Obtener la cantidad en stock, si no existe, asumimos 0
+  //     value: good.value, // Precio del bien
+  //   }));
+  // }
+
 }
