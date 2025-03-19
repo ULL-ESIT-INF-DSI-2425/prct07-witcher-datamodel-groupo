@@ -11,3 +11,5 @@ export type InventorySchema = {
   client: Client[];
 
 };
+
+// DELETE
