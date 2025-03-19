@@ -3,6 +3,15 @@ import { addGood } from './addgood.js';
 import { removeGood } from './removegood.js';
 import { updateGood } from './updategood.js';
 
+/**
+ * Function to manage goods
+ * 
+ * goodMenu
+ * @example
+ * ```typescript
+ * await goodMenu();
+ * ```
+ */
 export const goodMenu = async () => {
   let managing = true;
 

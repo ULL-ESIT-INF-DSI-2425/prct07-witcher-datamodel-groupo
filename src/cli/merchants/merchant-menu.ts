@@ -8,6 +8,10 @@ import inquirer from "inquirer";
  * Function to manage the merchant menu
  * 
  * merchantMenu
+ * @example
+ * ```typescript
+ * await merchantMenu();
+ * ```
  */
 export const merchantMenu = async () => {
   let managing = true;

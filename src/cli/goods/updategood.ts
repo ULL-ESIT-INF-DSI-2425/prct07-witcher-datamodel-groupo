@@ -4,6 +4,10 @@ import inquirer from "inquirer";
  * Function to update a good
  * 
  * updateGood
+ * @example
+ * ```typescript
+ * await updateGood();
+ * ```
  */
 export const updateGood = async () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

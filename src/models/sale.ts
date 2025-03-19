@@ -4,10 +4,19 @@ import { Good } from "./good.js";
 
 /**
  * Represent a Sale object with its properties
+ * 
+ * @param {Client} _client - The client who made the sale
  */
-
 export class Sale extends Transaction {
   accessor _client: Client;
+  /**
+   * The constructor of the class
+   * @param client - The client who made the sale
+   * @param good - The good that was sold
+   * @param quantity - The quantity of the good that was sold
+   * @param total_price - The total price of the sale
+   * @param date - The date of the sale
+   */
   constructor(
     public client: Client,
     public good: Good,
@@ -18,6 +27,11 @@ export class Sale extends Transaction {
     super(good, quantity, total_price, date);
     this._client = client;
   }
+  
+  /**
+   * A method to get the client of the sale
+   * @returns The client of the sale
+   */
   getTransactionType(): string {
     return "Sale";
   }

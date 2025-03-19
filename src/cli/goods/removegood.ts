@@ -4,6 +4,10 @@ import inquirer from "inquirer";
  * Function to remove a good
  * 
  * removeGood
+ * @example
+ * ```typescript
+ * await removeGood();
+ * ```
  */
 export const removeGood = async () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

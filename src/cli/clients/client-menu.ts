@@ -8,6 +8,10 @@ import { updateClient } from "./updateclient.js";
  * Function to display the clients menu
  * 
  * clientMenu
+ * @example
+ * ```typescript
+ * await clientMenu();
+ * ```
  */
 export const clientMenu = async () => {
   let managing = true;

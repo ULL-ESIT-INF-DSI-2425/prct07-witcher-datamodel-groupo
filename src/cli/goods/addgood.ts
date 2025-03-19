@@ -1,5 +1,13 @@
 import inquirer from 'inquirer';
-
+/**
+ * Function to add a good
+ * 
+ * addGood
+ * @example
+ * ```typescript
+ * await addGood();
+ * ```
+ */
 export const addGood = async () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const answers = await inquirer.prompt([

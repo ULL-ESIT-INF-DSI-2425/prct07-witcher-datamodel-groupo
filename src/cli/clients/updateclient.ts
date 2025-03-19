@@ -4,6 +4,10 @@ import inquirer from "inquirer";
  * Function to update a client
  * 
  * updateClient
+ * @example
+ * ```typescript
+ * await updateClient();
+ * ```
  */
 export async function updateClient(): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

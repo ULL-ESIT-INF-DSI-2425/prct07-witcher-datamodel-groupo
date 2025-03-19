@@ -6,6 +6,10 @@ import { Locations } from "../../enums/locations.js";
  * Function to add a client
  *
  * addClient
+ * @example
+ * ```typescript
+ * await addClient();
+ * ```
  */
 export const addClient = async () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
