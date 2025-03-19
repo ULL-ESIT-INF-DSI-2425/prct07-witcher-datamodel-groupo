@@ -13,3 +13,4 @@ export interface DBInventory {
   adapter: JSONFile<InventorySchema>;
   db: Low<InventorySchema>;
 }
+// DELETE
