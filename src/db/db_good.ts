@@ -56,8 +56,8 @@ export class DB_Good implements DBGood {
    * The method to write the inventory to the database
    */
   async writeInventory(): Promise<void> {
-    // juntar lo que hay en el _inventory con lo que hay en la base de datos
-    this.db.data.goods = this._inventory;
+    // Sobreescribir lo que hay en la base de datos con lo de _inventory
+    this.db.data.goods = [...this._inventory];
     await this.db.write();
   }
 

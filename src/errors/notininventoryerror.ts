@@ -1,7 +1,6 @@
 // Purpose: Implements the NotInInventoryError class.
 // TODO: Implement the NotInInventoryError class.
 import { AppError } from './apperror.js';
-import { Good } from '../models/good.js';
 
 /**
  * NotInInventoyError class
@@ -17,14 +16,5 @@ export class NotInInventoryError extends AppError {
   constructor(message: string) {
     super(message);
     this.name = 'NotInIventoryError';
-  }
-
-  /**
-   * validate if the good is not in the inventory
-   * 
-   * 
-   */
-  static validate(good: Good): void {
-    
   }
 }

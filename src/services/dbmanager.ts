@@ -6,6 +6,7 @@ import { GoodSchema } from "../types/goodschema.js";
 import { JSONFile } from "lowdb/node";
 import { Low } from "lowdb";
 import { TakenIdError } from "../errors/takeniderror.js";
+import { NotInInventoryError } from "../errors/notininventoryerror.js";
 import { GoodStack } from "../types/goodstack.js";
 
 
@@ -65,6 +66,7 @@ export class DBManager {
    * @example
    * ```typescript
    * dbmanager.loadGoods();
+   * ```
    */
   loadGoodId(): void {
     this.db_good.readInventory();
@@ -81,7 +83,6 @@ export class DBManager {
    * @throws TakenIdError - If the id of the good is already taken.
    */
   addGood(goodToAdd: Good): void {
-    // comprobar si esta dentro de _inventory. Descerializar el objeto y comprobar el id del objeto
     let goods_array: Good[] = [];
 
     this.db_good._inventory.forEach((good) => {
@@ -89,19 +90,20 @@ export class DBManager {
     });
     
     if (goods_array.includes(goodToAdd)) {
-      console.log("The good is already in the inventory");
+      //console.log("The good is already in the inventory");
       // add one to the inventory
       this.db_good._inventory.forEach((good) => {
         if (good[0].id === goodToAdd.id) {
           good[1]++;
         }
       });
+      // throw an error if the id is already taken and the name is different
     } else if (goods_array.some((good) => good.id === goodToAdd.id && good.name !== goodToAdd.name)) {
-      console.log("The id is already taken");
-      TakenIdError.validate(goodToAdd.id, this._good_id);
-      // throw new AppError(`Good with id ${goodToAdd.id} already exists with a different name.`);
+      //console.log("The id is already taken");
+      throw new TakenIdError('That ID is already taken!');
     } else {
-      console.log("The good is not in the inventory");
+      // add the good to the inventory
+      //console.log("The good is not in the inventory");
       let addedGood: GoodStack = [goodToAdd, 1];
       this.db_good._inventory.push(addedGood);
     }
@@ -115,7 +117,6 @@ export class DBManager {
    * @throws TakenIdError - If the id of the good is already taken.
    */
   removeGood(goodToRemove: Good): void {
-    // comprobar si esta dentro de _inventory. Descerializar el objeto y comprobar el id del objeto
     let goods_array: Good[] = [];
 
     this.db_good._inventory.forEach((good) => {
@@ -127,10 +128,14 @@ export class DBManager {
       this.db_good._inventory.forEach((good) => {
         if (good[0].id === goodToRemove.id) {
           good[1]--;
+          if (good[1] === 0) {
+            this.db_good._inventory = this.db_good._inventory.filter(item => item[0].id !== goodToRemove.id);
+          }
         }
       });
     } else {
-      console.log("The good is not in the inventory");
+      //console.log("The good is not in the inventory");
+      throw new NotInInventoryError('The good is not in the inventory');
     }
   }
 }
