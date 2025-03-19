@@ -8,15 +8,19 @@ import { GoodStack } from "../types/goodstack.js";
  * This class is used to represent the database for the goods
  * 
  * DBGood class
- * @param adapter - The JSON file adapter
- * @param db - The LowDB instance
  */
-
 export class DB_Good implements DBGood {
   accessor _adapter: JSONFile<GoodSchema>;
   accessor _db: Low<GoodSchema>;
   accessor _inventory: GoodStack[] = [];
 
+  /**
+   * The constructor for the DB_Good class
+   * @param adapter - The JSON file adapter
+   * @param db - The LowDB instance
+   * @param filePath - The path to the JSON file
+   * @param initialData - The initial data for the database
+   */
   constructor(
     public adapter: JSONFile<GoodSchema>,
     public db: Low<GoodSchema>,
@@ -27,21 +31,32 @@ export class DB_Good implements DBGood {
     this._db = db;
     this.adapter = new JSONFile<GoodSchema>(filePath);
     this.db= new Low<GoodSchema>(this.adapter, initialData);
-    // llamar al metodo read para leer el archivo y hacer los objetos tipo GoodStack y meterlos en el array inventory
     this.readInventory();
-
   }
+
+  /**
+   * The method to initialize the database
+   * @returns Promise<void>
+   */
   async initDB(): Promise<void> {
     await this.db.read();
     this.db.data ||= this.initialData;
     await this.db.write();
   }
+
+  /**
+   * The method to read the inventory and save it in the _inventory property
+   */
   async readInventory(): Promise<void> {
     await this.db.read();
     this._inventory = this.db.data.goods;
   }
+
+  /**
+   * The method to write the inventory to the database
+   */
   async writeInventory(): Promise<void> {
-    await this.db.read();
+    // juntar lo que hay en el _inventory con lo que hay en la base de datos
     this.db.data.goods = this._inventory;
     await this.db.write();
   }

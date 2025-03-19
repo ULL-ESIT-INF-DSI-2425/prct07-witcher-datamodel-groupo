@@ -1,0 +1,15 @@
+{
+  "goods": [
+    [
+      {
+        "id": 1,
+        "name": "Espada",
+        "description": "Una espada de acero",
+        "material": "Makaham Steel",
+        "weight": 2,
+        "value": 10
+      },
+      2
+    ]
+  ]
+}
