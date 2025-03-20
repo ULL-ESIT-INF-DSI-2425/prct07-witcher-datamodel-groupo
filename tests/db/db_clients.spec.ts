@@ -7,6 +7,7 @@ import { Client } from "../../src/models/client.js";
 import { Races } from "../../src/enums/races.js";
 import { Locations } from "../../src/enums/locations.js";
 import { ClientAlreadyExistsError } from "../../src/errors/clientalreadyexits.js";
+import { NotInInventoryError } from "../../src/errors/notininventoryerror.js";
 
 describe ("class DB_Clients tests", () => {
 
@@ -60,5 +61,24 @@ describe ("class DB_Clients tests", () => {
     console.log(dbClients._inventory);
     dbClients.addClient(client);
     expect(() => (dbClients.addClient(client))).toThrow(ClientAlreadyExistsError);
+  });
+
+  it('should have a method to remove a client from the inventory', () => {
+    let client = new Client(1, "Geralt", Races.WITCHER, Locations.KAER_MORHEN);
+    dbClients.addClient(client);
+    console.log("Estado del inventario de clientes al añadir el cliente:");
+    console.log(dbClients._inventory);
+    dbClients.removeClient(client);
+    console.log("Estado del inventario de clientes al eliminar el cliente:");
+    console.log(dbClients._inventory);
+    expect(dbClients._inventory.length).toBe(0);
+    //dbClients.writeInventory();
+  });
+
+  it('should dont remove a client in the inventory if the client dont exists', () => {
+    let client = new Client(1, "Geralt", Races.WITCHER, Locations.KAER_MORHEN);
+    console.log("Estado del inventario de clientes antes de quitar el cliente inexistente:");
+    console.log(dbClients._inventory);
+    expect(() => (dbClients.removeClient(client))).toThrow(NotInInventoryError);
   });
 });

@@ -32,7 +32,7 @@ export class DB_Client {
     this._adapter = adapter
     this._db = db;
     this.adapter = new JSONFile<ClientSchema>(filepath);
-    this.db = new Low<ClientSchema>(this.adapter, initialData);
+    this.db = new Low<ClientSchema>(adapter, initialData);
   }
 
   /**

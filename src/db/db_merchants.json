@@ -1,0 +1,10 @@
+{
+  "merchant": [
+    {
+      "id": 2,
+      "name": "Gremist",
+      "type": "Alchemist",
+      "location": "Skellige"
+    }
+  ]
+}
