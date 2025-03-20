@@ -2,6 +2,9 @@ import inquirer from 'inquirer';
 import { addGood } from './addgood.js';
 import { removeGood } from './removegood.js';
 import { updateGood } from './updategood.js';
+import { searchGood } from './searchgood.js';
+import { DB_Good } from '../../db/db_good.js';
+import { sortGood } from './sortgood.js';
 
 /**
  * Function to manage goods
@@ -12,7 +15,7 @@ import { updateGood } from './updategood.js';
  * await goodMenu();
  * ```
  */
-export const goodMenu = async () => {
+export const goodMenu = async (dbGood: DB_Good) => {
   let managing = true;
 
   while (managing) {
@@ -25,6 +28,7 @@ export const goodMenu = async () => {
           '📦\tAdd good',
           '🛑\tRemove good',
           '🔍\tSearch good',
+          '📶\tSort good',
           '🔄\tUpdate good',
           '⬅️\tBack',
         ],
@@ -33,16 +37,19 @@ export const goodMenu = async () => {
 
     switch (action) {
       case '📦\tAdd good':
-        await addGood();
+        await addGood(dbGood);
         break;
       case '🛑\tRemove good':
-        await removeGood();
+        await removeGood(dbGood);
         break;
       case '🔍\tSearch good':
-        //await searchGoods();
+        await searchGood(dbGood);
+        break;
+      case '📶\tSort good':
+        await sortGood(dbGood);
         break;
       case '🔄\tUpdate good':
-        await updateGood();
+        await updateGood(dbGood);
         break;
       case '⬅️\tBack':
         managing = false;

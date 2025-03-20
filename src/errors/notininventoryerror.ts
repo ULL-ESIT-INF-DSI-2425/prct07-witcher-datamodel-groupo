@@ -1,5 +1,3 @@
-// Purpose: Implements the NotInInventoryError class.
-// TODO: Implement the NotInInventoryError class.
 import { AppError } from './apperror.js';
 
 /**

@@ -2,9 +2,75 @@
   "clients": [
     {
       "id": 1,
-      "name": "Geralt",
+      "name": "Geraldo",
       "race": "Witcher",
       "location": "Kaer Morhen"
+    },
+    {
+      "id": 2,
+      "name": "Tormunt",
+      "race": "Elf",
+      "location": "Redania"
+    },
+    {
+      "id": 1,
+      "name": "Alice",
+      "race": "Human",
+      "location": "Toussant"
+    },
+    {
+      "id": 2,
+      "name": "Bob",
+      "race": "Elf",
+      "location": "Redania"
+    },
+    {
+      "id": 3,
+      "name": "Charlie",
+      "race": "Dwarf",
+      "location": "Skellige"
+    },
+    {
+      "id": 4,
+      "name": "Diana",
+      "race": "Halveelf",
+      "location": "Redania"
+    },
+    {
+      "id": 5,
+      "name": "Eve",
+      "race": "Human",
+      "location": "Redania"
+    },
+    {
+      "id": 6,
+      "name": "Frank",
+      "race": "Elf",
+      "location": "Nilfgaard"
+    },
+    {
+      "id": 7,
+      "name": "Grace",
+      "race": "Dwarf",
+      "location": "Novigrad"
+    },
+    {
+      "id": 8,
+      "name": "Hank",
+      "race": "Halveling",
+      "location": "Skellige"
+    },
+    {
+      "id": 9,
+      "name": "Ivy",
+      "race": "Human",
+      "location": "Nilfgaard"
+    },
+    {
+      "id": 10,
+      "name": "Jack",
+      "race": "Elf",
+      "location": "Velen"
     }
   ]
 }

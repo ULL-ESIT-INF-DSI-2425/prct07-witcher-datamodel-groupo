@@ -2,6 +2,7 @@ import inquirer from 'inquirer';
 import { goodMenu } from './goods/goods-menu.js';
 import { clientMenu } from './clients/client-menu.js';
 import { merchantMenu } from './merchants/merchant-menu.js';
+import { DBManager } from '../services/dbmanager.js';
 
 /**
  * Function to manage the main menu
@@ -10,6 +11,8 @@ import { merchantMenu } from './merchants/merchant-menu.js';
  */
 export const mainMenu = async () => {
   let running = true;
+
+  const db = new DBManager();
 
   while (running) {
     const { action } = await inquirer.prompt([
@@ -30,7 +33,7 @@ export const mainMenu = async () => {
 
     switch (action) {
       case '🏹\tManage goods':
-        await goodMenu();
+        await goodMenu(db.getDBGood());
         break;
       case '🛡️\tManage clients':
         await clientMenu();
@@ -47,6 +50,7 @@ export const mainMenu = async () => {
       case '❌\tExit':
         running = false;
         console.log('👋\tMay your sword be sharp traveller. Farewell!');
+        db.saveAll();
         break;
     }
   }

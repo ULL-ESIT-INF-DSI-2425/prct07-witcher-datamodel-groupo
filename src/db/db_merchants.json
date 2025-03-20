@@ -2,9 +2,75 @@
   "merchant": [
     {
       "id": 2,
+      "name": "Alberto el chupacabras",
+      "type": "Alchemist",
+      "location": "Nilfgaard"
+    },
+    {
+      "id": 3,
+      "name": "Iorveth",
+      "type": "Alchemist",
+      "location": "Skellige"
+    },
+    {
+      "id": 1,
       "name": "Gremist",
       "type": "Alchemist",
       "location": "Skellige"
+    },
+    {
+      "id": 2,
+      "name": "Roon",
+      "type": "Blacksmit",
+      "location": "Velen"
+    },
+    {
+      "id": 3,
+      "name": "Hattori",
+      "type": "Enchanter",
+      "location": "Kaer Morhen"
+    },
+    {
+      "id": 4,
+      "name": "Keira Metz",
+      "type": "General Merchant",
+      "location": "Toussant"
+    },
+    {
+      "id": 5,
+      "name": "Olivier",
+      "type": "Gobernor",
+      "location": "Skellige"
+    },
+    {
+      "id": 6,
+      "name": "Hattori",
+      "type": "Alchemist",
+      "location": "Velen"
+    },
+    {
+      "id": 7,
+      "name": "Keira Metz",
+      "type": "Blacksmit",
+      "location": "Kaer Morhen"
+    },
+    {
+      "id": 8,
+      "name": "Olivier",
+      "type": "Enchanter",
+      "location": "Toussant"
+    },
+    {
+      "id": 9,
+      "name": "Gremist",
+      "type": "General Merchant",
+      "location": "Skellige"
+    },
+    {
+      "id": 10,
+      "name": "Roon",
+      "type": "Gobernor",
+      "location": "Velen"
     }
   ]
 }

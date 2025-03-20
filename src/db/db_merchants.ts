@@ -4,6 +4,11 @@ import { MerchantSchema } from "../types/merchantschema.js";
 import { Merchant } from "../models/merchant.js";
 import { MerchantAlreadyExistsError } from "../errors/merchantalreadyexists.js";
 import { NotInInventoryError } from "../errors/notininventoryerror.js";
+import { NotModifyId } from "../errors/notmodifyid.js";
+import { Locations } from "../enums/locations.js";
+import { MerchantType } from "../enums/merchantType.js";
+import { LocationError } from "../errors/locationerror.js";
+import { MerchantError } from "../errors/merchanterror.js";
 
 /**
  * Class that represents the database of merchants
@@ -126,4 +131,36 @@ export class DB_Merchant {
 
     }
   }
+  // funcion que modifica un mercader. Será una función genérica 
+  modifyMerchant<T extends keyof Merchant>(merchantToModify: Merchant, key: T, value: Merchant[T]): void {
+    if (!this._inventory.some((merchant) => merchant.id === merchantToModify.id)) {
+      throw new NotInInventoryError('The merchant is not in the inventory');
+    }
+  
+    if (key === 'id') {
+      throw new NotModifyId('The id cannot be modified');
+    }
+
+    // Validaciones según la propiedad a modificar
+    switch (key) {
+      case 'location':
+        // comprobar si la ubicación es válida (mirar si está dentro del enum)
+        if (!Object.values(Locations).includes(value as Locations)) {
+          throw new LocationError(`Invalid location: ${value}`);
+        }
+        break;
+      case 'type':
+        if (!Object.values(MerchantType).includes(value as MerchantType)) {
+          throw new MerchantError(`Invalid merchant type: ${value}`);
+        }
+        break;
+    }
+
+    this._inventory = this._inventory.map((merchant) => 
+      merchant.id === merchantToModify.id
+        ? ({ ...merchant, [key]: value } as Merchant)
+        : merchant
+    );
+}
+  
 }

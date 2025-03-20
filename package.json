@@ -7,9 +7,11 @@
     "eslint": "eslint .",
     "prettier": "prettier --write .",
     "doc": "typedoc",
-    "test": "npx vitest run",
-    "coverage": "npx vitest run --coverage --coverage.include 'src/**/*'",
-    "test-inventory-db": "rm -f ./src/db/db_inventory.json && npx vitest run ./tests/services/inventory_contains.spec.ts"
+    "test": "rm -f ./src/db/*.json && npx vitest run",
+    "coverage": "rm -f ./src/db/*.json && npx vitest run --coverage --coverage.include 'src/**/*'",
+    "test-client-db": "rm -f ./src/db/db_clients.json && npx vitest run ./tests/db/db_clients.spec.ts",
+    "test-inventory-db": "rm -f ./src/db/db_good.json && npx vitest run ./tests/db/db_good.spec.ts",
+    "test-merchant-db": "rm -f ./src/db/db_merchants.json && npx vitest run ./tests/db/db_merchants.spec.ts"
   },
   "repository": {
     "type": "git",

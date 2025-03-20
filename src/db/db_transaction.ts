@@ -2,6 +2,9 @@ import { DBTransactions } from "../interfaces/db_transaction.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 import { TransactionsSchema } from "../types/transactionsschema.js";
+import { DB_Good } from "./db_good.js";
+import { Sale } from "../models/sale.js";
+import { Shop } from "../models/shop.js";
 
 /**
  * Represents the database of the transactions
@@ -13,6 +16,8 @@ import { TransactionsSchema } from "../types/transactionsschema.js";
 export class DB_Transactions implements DBTransactions {
   accessor _adapter: JSONFile<TransactionsSchema>;
   accessor _db: Low<TransactionsSchema>;
+  accessor _sales: Sale[] = [];
+  accessor _shops: Shop[] = [];
 
   constructor(
     public adapter: JSONFile<TransactionsSchema>,
@@ -30,4 +35,73 @@ export class DB_Transactions implements DBTransactions {
     this.db.data ||= this.initialData;
     await this.db.write();
   }
+  async readSales(): Promise<Sale[]> {
+    await this.db.read();
+    this._sales = this.db.data.sale;
+    return this._sales;
+  }
+  async readShops(): Promise<Shop[]> {
+    await this.db.read();
+    this._shops = this.db.data.shop;
+    return this._shops;
+  }
+  // async writeTransaction(); Promise<void> {
+  //   this.db.data.sale = this._sales;
+  //   this.db.data.shop = this._shops;
+  //   await this.db.write();
+  // }
+  // addSale(saleToAdd: Sale): void {
+  //   let sales_array: Sale[] = [];
+  //   this._sales.forEach((element) => {
+  //     sales_array.push(element);
+  //   });
+  //   if (sales_array.includes(saleToAdd)) {
+  //     throw new Error("Sale already exists"); // TODO crear nuevo error
+  //   } else {
+  //     // comprobar si hay stock suficiente del producto
+  //     let db_goods = new DB_Goods();
+  //     let goods = await db_goods.readGoods();
+  //     let good = goods.find((good) => good.id === saleToAdd.good.id);
+  //     if (good.stock < saleToAdd.quantity) {
+  //       throw new Error("Not enough stock"); // TODO crear nuevo error
+  //     } else {
+  //       good.stock -= saleToAdd.quantity;
+  //       await db_goods.writeGoods();
+  //     }
+  //     this._sales.push(saleToAdd);
+  //   }
+  // }
+  // addShop(shopToAdd: Shop): void {
+  //   let shops_array: Shop[] = [];
+  //   this._shops.forEach((element) => {
+  //     shops_array.push(element);
+  //   });
+  //   if (shops_array.includes(shopToAdd)) {
+  //     throw new Error("Shop already exists"); // TODO crear nuevo error
+  //   } else {
+  //     this._shops.push(shopToAdd);
+  //   }
+  // }
+  // removeSale(saleToRemove: Sale): void {
+  //   let sales_array: Sale[] = [];
+  //   this._sales.forEach((element) => {
+  //     sales_array.push(element);
+  //   });
+  //   if (!sales_array.includes(saleToRemove)) {
+  //     throw new Error("Sale does not exist"); // TODO crear nuevo error
+  //   } else {
+  //     this._sales = this._sales.filter((sale) => sale.good.id !== saleToRemove.good.id);
+  //   }
+  // }
+  // removeShop(shopToRemove: Shop): void {
+  //   let shops_array: Shop[] = [];
+  //   this._shops.forEach((element) => {
+  //     shops_array.push(element);
+  //   });
+  //   if (!shops_array.includes(shopToRemove)) {
+  //     throw new Error("Shop does not exist"); // TODO crear nuevo error
+  //   } else {
+  //     this._shops = this._shops.filter((shop) => shop.id !== shopToRemove.id);
+  //   }
+  // }
 }

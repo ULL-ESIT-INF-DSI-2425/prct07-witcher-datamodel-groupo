@@ -4,10 +4,15 @@ import { Client } from "../models/client.js";
 import { ClientSchema } from "../types/clientschema.js";
 import { NotInInventoryError } from "../errors/notininventoryerror.js";
 import { ClientAlreadyExistsError } from "../errors/clientalreadyexits.js";
+import { NotModifyId } from "../errors/notmodifyid.js";
+import { Races } from "../enums/races.js";
+import { Locations } from "../enums/locations.js";
+import { RaceError } from "../errors/raceerror.js";
+import { LocationError } from "../errors/locationerror.js";
 
 /**
  * Class that represents the database of clients
- * 
+ *
  * DB_Client class
  */
 export class DB_Client {
@@ -128,5 +133,36 @@ export class DB_Client {
     } else {
       this._inventory = this._inventory.filter((client) => client.id !== clientToRemove.id);
     }
+  }
+
+
+  modifyClient<T extends keyof Client>(clientToModify: Client, key: T, value: Client[T]): void {
+    if(!this._inventory.some((client) => client.id === clientToModify.id)){
+      throw new NotInInventoryError('The client is not in the inventory');
+    }
+
+    if(key === 'id'){
+      throw new NotModifyId('The id cannot be modified');
+    }
+
+    switch(key){
+      case 'race':
+        if(!Object.values(Races).includes(value as Races)){
+          throw new RaceError(`Invalid race: ${value}`);
+        } 
+        break;
+
+      case 'location':
+        if(!Object.values(Locations).includes(value as Locations)){
+          throw new LocationError(`Invalid location: ${value}`);
+        } 
+        break;
+    }
+
+    this._inventory = this._inventory.map((client) => 
+      client.id === clientToModify.id 
+      ? ({ ...client, [key]: value } as Client)
+      : client
+    );
   }
 };

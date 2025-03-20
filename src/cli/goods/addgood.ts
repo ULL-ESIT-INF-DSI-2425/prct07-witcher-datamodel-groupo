@@ -1,4 +1,8 @@
 import inquirer from 'inquirer';
+import { DB_Good } from '../../db/db_good.js';
+import { Good } from '../../models/good.js';
+import { Materials } from '../../enums/materials.js';
+
 /**
  * Function to add a good
  * 
@@ -8,7 +12,7 @@ import inquirer from 'inquirer';
  * await addGood();
  * ```
  */
-export const addGood = async () => {
+export const addGood = async (dbGood: DB_Good) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const answers = await inquirer.prompt([
     {
@@ -27,9 +31,21 @@ export const addGood = async () => {
       message: 'Description of the good:',
     },
     {
-      type: 'input',
-      name: 'material',
-      message: 'Material of the good:',
+      type: "list",
+      name: "material",
+      message: "Select the material of the good: ",
+      choices: [
+        { name: "🔩 Makaham Steel", value: Materials.MAKAHAM_STEEL },
+        { name: "🛡️ Hardened Leather", value: Materials.HARDENED_LEATHER },
+        { name: "✨ Magic Essence", value: Materials.MAGIC_ESSENCE },
+        { name: "👹 Monster Essence", value: Materials.MONSTER_ESSENCE },
+        { name: "☄️ Meteorite Lingot", value: Materials.METEORITE_LINGOT },
+        { name: "🌲 Resin", value: Materials.RESIN },
+        { name: "💎 Ruby Dust", value: Materials.RUBY_DUST },
+        { name: "🧵 Steel Line", value: Materials.STEEL_LINE },
+        { name: "🎤 Siren Vocal Chords", value: Materials.SIREN_VOCAL_CHORDS },
+        { name: "⚗️ Zerrikanian Powder", value: Materials.ZERRIKANIAN_POWDER },
+      ],
     },
     {
       type: 'input',
@@ -42,6 +58,21 @@ export const addGood = async () => {
       message: 'Value (crowns):',
     },
   ]);
-  //TODO: add good to the database
+  
+  const newGood = new Good(
+    parseInt(answers.id), 
+    answers.name,
+    answers.description,
+    answers.material,
+    parseFloat(answers.weight),
+    parseFloat(answers.value)
+  );
+
+  try {
+    dbGood.addGood(newGood);
+    console.log(`Good "${newGood.name}" added successfully to the database.`);
+  } catch (error) {
+    console.error(`Failed to add the good`, error);
+  }
 }
 
