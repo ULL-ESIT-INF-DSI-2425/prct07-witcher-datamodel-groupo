@@ -45,63 +45,56 @@ export class DB_Transactions implements DBTransactions {
     this._shops = this.db.data.shop;
     return this._shops;
   }
-  // async writeTransaction(); Promise<void> {
-  //   this.db.data.sale = this._sales;
-  //   this.db.data.shop = this._shops;
-  //   await this.db.write();
-  // }
-  // addSale(saleToAdd: Sale): void {
-  //   let sales_array: Sale[] = [];
-  //   this._sales.forEach((element) => {
-  //     sales_array.push(element);
-  //   });
-  //   if (sales_array.includes(saleToAdd)) {
-  //     throw new Error("Sale already exists"); // TODO crear nuevo error
-  //   } else {
-  //     // comprobar si hay stock suficiente del producto
-  //     let db_goods = new DB_Goods();
-  //     let goods = await db_goods.readGoods();
-  //     let good = goods.find((good) => good.id === saleToAdd.good.id);
-  //     if (good.stock < saleToAdd.quantity) {
-  //       throw new Error("Not enough stock"); // TODO crear nuevo error
-  //     } else {
-  //       good.stock -= saleToAdd.quantity;
-  //       await db_goods.writeGoods();
-  //     }
-  //     this._sales.push(saleToAdd);
-  //   }
-  // }
-  // addShop(shopToAdd: Shop): void {
-  //   let shops_array: Shop[] = [];
-  //   this._shops.forEach((element) => {
-  //     shops_array.push(element);
-  //   });
-  //   if (shops_array.includes(shopToAdd)) {
-  //     throw new Error("Shop already exists"); // TODO crear nuevo error
-  //   } else {
-  //     this._shops.push(shopToAdd);
-  //   }
-  // }
-  // removeSale(saleToRemove: Sale): void {
-  //   let sales_array: Sale[] = [];
-  //   this._sales.forEach((element) => {
-  //     sales_array.push(element);
-  //   });
-  //   if (!sales_array.includes(saleToRemove)) {
-  //     throw new Error("Sale does not exist"); // TODO crear nuevo error
-  //   } else {
-  //     this._sales = this._sales.filter((sale) => sale.good.id !== saleToRemove.good.id);
-  //   }
-  // }
-  // removeShop(shopToRemove: Shop): void {
-  //   let shops_array: Shop[] = [];
-  //   this._shops.forEach((element) => {
-  //     shops_array.push(element);
-  //   });
-  //   if (!shops_array.includes(shopToRemove)) {
-  //     throw new Error("Shop does not exist"); // TODO crear nuevo error
-  //   } else {
-  //     this._shops = this._shops.filter((shop) => shop.id !== shopToRemove.id);
-  //   }
-  // }
+  async writeTransaction(): Promise<void> {
+    this.db.data.sale = this._sales;
+    this.db.data.shop = this._shops;
+    await this.db.write();
+  }
+  addSale(saleToAdd: Sale): void {
+    let sales_array: Sale[] = [];
+    this._sales.forEach((element) => {
+      sales_array.push(element);
+    });
+    if (sales_array.includes(saleToAdd)) {
+      throw new Error("Sale already exists"); // TODO crear nuevo error
+    } else {
+      // comprobar si hay stock suficiente del producto
+      let db_goods = new DB_Good(new JSONFile("./src/db/db_good.json"), new Low(new JSONFile("./src/db/db_good.json"), { goods: [] }));
+      db_goods.readInventory();
+      
+    }
+  }
+  addShop(shopToAdd: Shop): void {
+    let shops_array: Shop[] = [];
+    this._shops.forEach((element) => {
+      shops_array.push(element);
+    });
+    if (shops_array.includes(shopToAdd)) {
+      throw new Error("Shop already exists"); // TODO crear nuevo error
+    } else {
+      this._shops.push(shopToAdd);
+    }
+  }
+  removeSale(saleToRemove: Sale): void {
+    let sales_array: Sale[] = [];
+    this._sales.forEach((element) => {
+      sales_array.push(element);
+    });
+    if (!sales_array.includes(saleToRemove)) {
+      throw new Error("Sale does not exist"); // TODO crear nuevo error
+    } else {
+      this._sales = this._sales.filter((sale) => sale.good.id !== saleToRemove.good.id);
+    }
+  }
+  removeShop(shopToRemove: Shop): void {
+    let shops_array: Shop[] = [];
+    this._shops.forEach((element) => {
+      shops_array.push(element);
+    });
+    if (!shops_array.includes(shopToRemove)) {
+      throw new Error("Shop does not exist"); // TODO crear nuevo error
+    } else {
+      this._shops = this._shops.filter((shop) => shop.id !== shopToRemove.id);
+    }
+  }
 }
