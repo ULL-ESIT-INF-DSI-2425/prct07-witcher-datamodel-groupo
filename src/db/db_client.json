@@ -1,0 +1,10 @@
+{
+  "clients": [
+    {
+      "id": 1,
+      "name": "Geralt",
+      "race": "Witcher",
+      "location": "Kaer Morhen"
+    }
+  ]
+}

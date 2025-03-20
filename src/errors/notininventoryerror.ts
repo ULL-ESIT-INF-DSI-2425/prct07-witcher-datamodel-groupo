@@ -9,8 +9,7 @@ import { AppError } from './apperror.js';
  */
 export class NotInInventoryError extends AppError {
   /**
-   * Constructor
-   * 
+   * The constructor of the class NotInInventoryError
    * @param message - The error message
    */
   constructor(message: string) {
