@@ -10,6 +10,9 @@ import { ClientAlreadyExistsError } from "../../src/errors/clientalreadyexits.js
 import { NotInInventoryError } from "../../src/errors/notininventoryerror.js";
 import { RaceError } from "../../src/errors/raceerror.js";
 import { LocationError } from "../../src/errors/locationerror.js";
+import { TakenIdError } from "../../src/errors/takeniderror.js";
+import { IdError } from "../../src/errors/iderror.js";
+import { AppError } from "../../src/errors/apperror.js";
 
 describe ("class DB_Clients tests", () => {
 
@@ -51,43 +54,45 @@ describe ("class DB_Clients tests", () => {
   it('should have a method to add a new client in the inventory', () => {
     let client = new Client(1, "Geralt", Races.WITCHER, Locations.KAER_MORHEN);
     dbClients.addClient(client);
-    console.log("Estado del inventario de clientes:");
-    console.log(dbClients._inventory);
+    // console.log("Estado del inventario de clientes:");
+    // console.log(dbClients._inventory);
     expect(dbClients._inventory.length).toBe(1);
     dbClients.writeInventory();
   });
 
   it('should dont add a new client in the inventory if the client already exists', () => {
+    dbClients.readInventory();
     let client = new Client(1, "Geralt", Races.WITCHER, Locations.KAER_MORHEN);
-    console.log("Estado del inventario de clientes al añadir el cliente repetido:");
-    console.log(dbClients._inventory);
-    dbClients.addClient(client);
-    expect(() => (dbClients.addClient(client))).toThrow(ClientAlreadyExistsError);
+    // console.log("Estado del inventario de clientes al añadir el cliente repetido:");
+    // console.log(dbClients._inventory);
+    // dbClients.addClient(client);
+    expect(() => (dbClients.addClient(client))).toThrow(TakenIdError);
   });
 
   it('should have a method to remove a client from the inventory', () => {
     let client = new Client(1, "Geralt", Races.WITCHER, Locations.KAER_MORHEN);
-    dbClients.addClient(client);
-    console.log("Estado del inventario de clientes al añadir el cliente:");
-    console.log(dbClients._inventory);
+    // dbClients.addClient(client);
+    // dbClients.writeInventory();
+    // console.log("Estado del inventario de clientes al añadir el cliente:");
+    // console.log(dbClients._inventory);
     dbClients.removeClient(client);
-    console.log("Estado del inventario de clientes al eliminar el cliente:");
-    console.log(dbClients._inventory);
+    // console.log("Estado del inventario de clientes al eliminar el cliente:");
+    // console.log(dbClients._inventory);
     expect(dbClients._inventory.length).toBe(0);
     //dbClients.writeInventory();
   });
 
   it('should dont remove a client in the inventory if the client dont exists', () => {
     let client = new Client(1, "Geralt", Races.WITCHER, Locations.KAER_MORHEN);
-    console.log("Estado del inventario de clientes antes de quitar el cliente inexistente:");
-    console.log(dbClients._inventory);
+    // console.log("Estado del inventario de clientes antes de quitar el cliente inexistente:");
+    // console.log(dbClients._inventory);
     expect(() => (dbClients.removeClient(client))).toThrow(NotInInventoryError);
   });
 
   it('should have a method to modify a client in the inventory', () => {
     
-    console.log("Estado del inventario de clientes antes de modificar el cliente:");
-    console.log(dbClients._inventory);
+    // console.log("Estado del inventario de clientes antes de modificar el cliente:");
+    // console.log(dbClients._inventory);
 
     dbClients.readInventory();
     
@@ -95,16 +100,16 @@ describe ("class DB_Clients tests", () => {
     dbClients.addClient(client);
     dbClients.writeInventory();
 
-    console.log("Estado del inventario de clientes al añadir el cliente:");
-    console.log(dbClients._inventory);
+    // console.log("Estado del inventario de clientes al añadir el cliente:");
+    // console.log(dbClients._inventory);
     
     dbClients.readInventory();
     let clientToModify = dbClients._inventory.find(client => client.id === 1) as Client;
 
     dbClients.modifyClient(clientToModify, "name", "Geraldo");
 
-    console.log("Estado del inventario de clientes al modificar el cliente:");
-    console.log(dbClients._inventory);
+    // console.log("Estado del inventario de clientes al modificar el cliente:");
+    // console.log(dbClients._inventory);
 
     dbClients.writeInventory();
 
@@ -113,8 +118,8 @@ describe ("class DB_Clients tests", () => {
 
   it('should emit error trying to modify a client in the inventory if the client dont exists', () => {
     
-    console.log("Estado del inventario de clientes antes de modificar el cliente inexistente:");
-    console.log(dbClients._inventory);
+    // console.log("Estado del inventario de clientes antes de modificar el cliente inexistente:");
+    // console.log(dbClients._inventory);
 
     dbClients.readInventory();
 
@@ -122,8 +127,8 @@ describe ("class DB_Clients tests", () => {
     dbClients.addClient(client);
     dbClients.writeInventory();
 
-    console.log("Estado del inventario de clientes al añadir el cliente:");
-    console.log(dbClients._inventory);
+    // console.log("Estado del inventario de clientes al añadir el cliente:");
+    // console.log(dbClients._inventory);
 
     dbClients.readInventory();
     let clientToModify = dbClients._inventory.find(client => client.id === 2);
@@ -139,6 +144,7 @@ describe ("class DB_Clients tests", () => {
     expect(() => (dbClients.modifyClient(clientToModify, 'location', invalidLocation))).toThrow(LocationError);
   });
 
+  
   it('Add 10 clients to the inventory', () => {
     const client1 = new Client(1, "Alice", Races.HUMAN, Locations.TOUSSANT);
     const client2 = new Client(2, "Bob", Races.ELF, Locations.REDANIA);
@@ -150,10 +156,11 @@ describe ("class DB_Clients tests", () => {
     const client8 = new Client(8, "Hank", Races.HALVELING, Locations.SKELLIGE);
     const client9 = new Client(9, "Ivy", Races.HUMAN, Locations.NILFGAARD);
     const client10 = new Client(10, "Jack", Races.ELF, Locations.VELEN);
-  
+    
     // Agregar clientes al inventario
-    dbClients.addClient(client1);
-    dbClients.addClient(client2);
+    expect(() => dbClients.addClient(client1)).toThrow(TakenIdError);
+    expect(() => dbClients.addClient(client2)).toThrow(TakenIdError);
+    
     dbClients.addClient(client3);
     dbClients.addClient(client4);
     dbClients.addClient(client5);
@@ -162,7 +169,28 @@ describe ("class DB_Clients tests", () => {
     dbClients.addClient(client8);
     dbClients.addClient(client9);
     dbClients.addClient(client10);
-
+    
     dbClients.writeInventory();
+  });
+
+  it('should have a method to search a client by name, race or location', () => {
+    dbClients.readInventory();
+    expect(dbClients.searchClient('name' , "Charlie")).toEqual([{id: 3, name: 'Charlie', race: 'Dwarf', location: 'Skellige'}]);
+    expect(dbClients.searchClient('race' , Races.HALVELING)).toEqual([{id: 8, name: 'Hank', race: 'Halveling', location: 'Skellige'}]);
+    
+    const result = dbClients.searchClient('location' , Locations.REDANIA);
+    expect(result).toStrictEqual([dbClients._inventory[1], dbClients._inventory[3], dbClients._inventory[4]]);
+  });
+
+  it('should emit error trying to search a client with invalid id, name, race or location', () => {
+    dbClients.readInventory();
+
+    const invalidRace = "Tiefling" as unknown as Races;
+    const invalidLocation = "Neverwinter" as unknown as Locations;
+
+    expect(() => dbClients.searchClient('id' , -2)).toThrow(AppError);
+    expect(() => dbClients.searchClient('name' , "")).toThrow(NotInInventoryError);
+    expect(() => dbClients.searchClient('race', invalidRace) ).toThrow(RaceError);
+    expect(() => dbClients.searchClient('location', invalidLocation) ).toThrow(LocationError);
   });
 });

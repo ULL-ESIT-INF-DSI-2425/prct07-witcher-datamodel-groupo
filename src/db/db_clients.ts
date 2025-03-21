@@ -11,6 +11,7 @@ import { RaceError } from "../errors/raceerror.js";
 import { LocationError } from "../errors/locationerror.js";
 import { IdError } from "../errors/iderror.js";
 import { InvalidKey } from "../errors/invalidkey.js";
+import { TakenIdError } from "../errors/takeniderror.js";
 
 /**
  * Class that represents the database of clients
@@ -104,8 +105,12 @@ export class DB_Client {
       client_array.push(client);
     });
 
-    if(client_array.includes(clientToAdd)){
-      throw new ClientAlreadyExistsError('Client already exists');
+    if(client_array.includes(clientToAdd) || this._inventory.some((client) => client.id === clientToAdd.id)){
+      if(client_array.includes(clientToAdd)){
+        throw new ClientAlreadyExistsError('Client already exists');
+      } else {
+        throw new TakenIdError('This id is already taked');
+      }
     } else {
       this._inventory.push(clientToAdd);
     }
@@ -130,7 +135,7 @@ export class DB_Client {
       client_array.push(client);
     });
 
-    if(!client_array.includes(clientToRemove)){
+    if(!client_array.some((client) => client.id === clientToRemove.id)){
       throw new NotInInventoryError('The client is not in the inventory');
     } else {
       this._inventory = this._inventory.filter((client) => client.id !== clientToRemove.id);
@@ -169,7 +174,6 @@ export class DB_Client {
   }
 
   searchClient<T extends keyof Client>(key: T, value: Client[T]): Client[] {
-
     switch(key){
 
       case 'id':
@@ -178,7 +182,7 @@ export class DB_Client {
 
       case 'name':
         if (typeof value !== 'string' || value.trim() === '') {
-          throw new Error(`Invalid name: ${value}`);
+          throw new NotInInventoryError(`Invalid name: ${value}`);
         } 
         break;
 
@@ -193,9 +197,6 @@ export class DB_Client {
           throw new LocationError(`Invalid location: ${value}`);
         } 
         break;
-
-      default:
-        throw new InvalidKey(`Invalid key: ${key}`);
     }
 
     return this._inventory.filter((client) => client[key] === value);
