@@ -2,14 +2,14 @@
   "clients": [
     {
       "id": 11,
-      "name": "nano",
+      "name": "ñemo",
       "race": "Human",
       "location": "Novigrad"
     },
     {
       "id": 12,
-      "name": "alonso",
-      "race": "Witcher",
+      "name": "piolo",
+      "race": "Elf",
       "location": "Skellige"
     }
   ]

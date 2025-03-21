@@ -1,7 +1,7 @@
 import inquirer  from "inquirer"; 
 import { addClient } from "./addclient.js";
 import { updateClient } from "./updateclient.js";
-// import { removeClient } from "./deleteclient.js";
+import { removeClient } from "./removeclient.js";
 import { searchClient } from "./searchclient.js";
 import { DB_Client } from "../../db/db_clients.js";
 
@@ -45,7 +45,7 @@ export const clientMenu = async (dbClient: DB_Client) => {
         break;
       case '🗑️\tRemove client':
         console.log('Removing client...');
-        //await deleteClient();
+        await removeClient(dbClient);
         break;
       case '🔍\tSearch client':
         console.log('Searching client...');
