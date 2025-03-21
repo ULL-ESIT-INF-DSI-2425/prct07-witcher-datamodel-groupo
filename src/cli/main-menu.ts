@@ -39,7 +39,7 @@ export const mainMenu = async () => {
         await clientMenu();
         break;
       case '🔥\tManage merchants':
-        await merchantMenu();
+        await merchantMenu(db.getDBMerchant());
         break;
       case '💰\tRegister a transaction':
         //await registerTransaction();

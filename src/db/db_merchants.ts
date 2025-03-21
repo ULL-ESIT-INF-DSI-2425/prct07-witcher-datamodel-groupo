@@ -42,6 +42,8 @@ export class DB_Merchant {
     this._db = db;
     this.adapter = new JSONFile<MerchantSchema>(filepath);
     this.db = new Low<MerchantSchema>(adapter, initialData);
+    this.readIventory();
+
   }
 
   /**
