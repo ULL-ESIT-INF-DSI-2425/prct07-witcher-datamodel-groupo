@@ -201,7 +201,10 @@ export class DB_Merchant {
         throw new InvalidKey(`Invalid key: ${key}`);
       
     }
-
+    let result = this._inventory.filter((merchant) => merchant[key] === value);
+    if (result.length === 0) {
+      throw new MerchantError(`No merchant found with ${key} ${value}`);
+    }
     return this._inventory.filter((merchant) => merchant[key] === value);
   }
 

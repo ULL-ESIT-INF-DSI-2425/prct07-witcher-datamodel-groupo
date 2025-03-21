@@ -23,7 +23,7 @@ export class IdError extends AppError {
    */
   static validate(id: number): void {
     if(!Number.isInteger(id) || id <= 0) {
-      throw new AppError('As you know the id must be a positive integer. Do not waste my time!');
+      throw new IdError('As you know the id must be a positive integer. Do not waste my time!');
     }
   }
 }

@@ -6,11 +6,11 @@ import { DB_Merchant } from "../../src/db/db_merchants.js";
 import { Merchant } from "../../src/models/merchant.js";
 import { MerchantType } from "../../src/enums/merchantType.js";
 import { Locations } from "../../src/enums/locations.js";
-import { MerchantAlreadyExistsError } from "../../src/errors/merchantalreadyexists.js";
 import { NotInInventoryError } from "../../src/errors/notininventoryerror.js";
 import { LocationError } from "../../src/errors/locationerror.js";
 import { MerchantError } from "../../src/errors/merchanterror.js";
 import { TakenIdError } from "../../src/errors/takeniderror.js";
+import { IdError } from "../../src/errors/iderror.js";
 
 describe("class DB_Merchant tests", () => {
 
@@ -213,6 +213,22 @@ describe("class DB_Merchant tests", () => {
     console.log("Resultado de la búsqueda por id:");
     console.log(merchant);
     expect(merchant.length).toBe(1);
+  });
+  // errores de searchMerchant
+  it ('should emit error trying to search a merchant with an invalid key', () => {
+    expect(() => (dbMerchants.searchMerchant('location', Locations.NO))).toThrow(LocationError);
+  });
+  it ('should emit error trying to search a merchant with an invalid value', () => {
+    expect(() => (dbMerchants.searchMerchant('id', 11))).toThrow(MerchantError);
+  });
+  it ('should emit error trying to search a merchant with an invalid id', () => {
+    expect(() => dbMerchants.searchMerchant('id', -1)).toThrow(IdError);
+  });
+  it ('should emit error trying to search a merchant with an invalid type', () => {
+    expect(() => dbMerchants.searchMerchant('type', MerchantType.M)).toThrow(MerchantError);
+  });
+  it ('should emit error when no merchant is found', () => {
+    expect(() => dbMerchants.searchMerchant('name', 'Alberto')).toThrow(MerchantError);
   });
   
 });
