@@ -1,12 +1,6 @@
 {
   "merchant": [
     {
-      "id": 2,
-      "name": "Alberto el chupacabras",
-      "type": "Alchemist",
-      "location": "Nilfgaard"
-    },
-    {
       "id": 3,
       "name": "Iorveth",
       "type": "Alchemist",
