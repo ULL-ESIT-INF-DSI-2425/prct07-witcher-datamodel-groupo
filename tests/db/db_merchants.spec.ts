@@ -10,6 +10,7 @@ import { MerchantAlreadyExistsError } from "../../src/errors/merchantalreadyexis
 import { NotInInventoryError } from "../../src/errors/notininventoryerror.js";
 import { LocationError } from "../../src/errors/locationerror.js";
 import { MerchantError } from "../../src/errors/merchanterror.js";
+import { TakenIdError } from "../../src/errors/takeniderror.js";
 
 describe("class DB_Merchant tests", () => {
 
@@ -60,16 +61,18 @@ describe("class DB_Merchant tests", () => {
     let merchant = new Merchant(2, "Gremist", MerchantType.ALCHEMIST, Locations.SKELLIGE);
     console.log("Estado del inventario tras añadir un comerciante ya existente:");
     console.log(dbMerchants._inventory);
-    dbMerchants.addMerchant(merchant);
-    expect(() => (dbMerchants.addMerchant(merchant))).toThrow(MerchantAlreadyExistsError);
+    expect(() => (dbMerchants.addMerchant(merchant))).toThrow(TakenIdError);
   });
   
   it('should have a method to remove a merchant', () => {
     let merchant = new Merchant(2, "Gremist", MerchantType.ALCHEMIST, Locations.SKELLIGE);
-    dbMerchants.addMerchant(merchant);
+    // Leer el inventario inicial
+    dbMerchants.readIventory();
+    // Crear y agregar un comerciante
     console.log("Estado del inventario antes de eliminar un comerciante:");
     console.log(dbMerchants._inventory);
     dbMerchants.removeMerchant(merchant);
+    dbMerchants.writeInventory();
     console.log("Estado del inventario tras eliminar un comerciante:");
     console.log(dbMerchants._inventory);
     expect(dbMerchants._inventory.length).toBe(0);
@@ -166,8 +169,9 @@ describe("class DB_Merchant tests", () => {
     let merchant10 = new Merchant(10, "Roon", MerchantType.GOBERNOR, Locations.VELEN);
   
     dbMerchants.addMerchant(merchant1);
-    dbMerchants.addMerchant(merchant2);
-    dbMerchants.addMerchant(merchant3);
+    // al meter el comerciante que tiene id 2, ya esta añadido en la base de datos, por lo que devuelve error
+    expect(() => (dbMerchants.addMerchant(merchant2))).toThrow(TakenIdError);
+    expect(() => (dbMerchants.addMerchant(merchant3))).toThrow(TakenIdError);
     dbMerchants.addMerchant(merchant4);
     dbMerchants.addMerchant(merchant5);
     dbMerchants.addMerchant(merchant6);
@@ -180,6 +184,35 @@ describe("class DB_Merchant tests", () => {
     console.log(dbMerchants._inventory);
     dbMerchants.writeInventory();
   
+  });
+  it ('should emit error trying to add a merchant that already exists', () => {
+    let merchant = new Merchant(1, "Gremist", MerchantType.ALCHEMIST, Locations.SKELLIGE);
+    expect(() => (dbMerchants.addMerchant(merchant))).toThrow(TakenIdError);
+  });
+  // pruebas de localizar mercader por nombre, tipo, ubicación y id
+  it ('should find a merchant by name', () => {
+    let merchant = dbMerchants.searchMerchant('name', 'Gremist');
+    console.log("Resultado de la búsqueda por nombre:");
+    console.log(merchant);
+    expect(merchant.length).toBe(2);
+  });
+  it ('should find a merchant by type', () => {
+    let merchant = dbMerchants.searchMerchant('type', MerchantType.ALCHEMIST);
+    console.log("Resultado de la búsqueda por tipo:");
+    console.log(merchant);
+    expect(merchant.length).toBe(4);
+  });
+  it ('should find a merchant by location', () => {
+    let merchant = dbMerchants.searchMerchant('location', Locations.SKELLIGE);
+    console.log("Resultado de la búsqueda por ubicación:");
+    console.log(merchant);
+    expect(merchant.length).toBe(4);
+  });
+  it ('should find a merchant by id', () => {
+    let merchant = dbMerchants.searchMerchant('id', 1);
+    console.log("Resultado de la búsqueda por id:");
+    console.log(merchant);
+    expect(merchant.length).toBe(1);
   });
   
 });

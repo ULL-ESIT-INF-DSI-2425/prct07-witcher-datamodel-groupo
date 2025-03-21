@@ -9,6 +9,9 @@ import { Locations } from "../enums/locations.js";
 import { MerchantType } from "../enums/merchantType.js";
 import { LocationError } from "../errors/locationerror.js";
 import { MerchantError } from "../errors/merchanterror.js";
+import { TakenIdError } from "../errors/takeniderror.js";
+import { IdError } from "../errors/iderror.js";
+import { InvalidKey } from "../errors/invalidkey.js";
 
 /**
  * Class that represents the database of merchants
@@ -100,10 +103,15 @@ export class DB_Merchant {
       merchant_array.push(merchant);
     });
 
-    if(merchant_array.includes(merchantToAdd)){
-      throw new MerchantAlreadyExistsError('Merchant already exists');  
+    if(merchant_array.includes(merchantToAdd) || this._inventory.some((merchant) => merchant.id === merchantToAdd.id)){
+      if (merchant_array.includes(merchantToAdd)) {
+        throw new MerchantAlreadyExistsError('Merchant already exists');
+      } else {
+        throw new TakenIdError('The id is already taken');
+      }
     } else {
       this._inventory.push(merchantToAdd);
+
     }
   }
 
@@ -123,8 +131,14 @@ export class DB_Merchant {
     this._inventory.forEach((merchant) => {
       merchant_array.push(merchant);
     });
-
-    if(!merchant_array.includes(merchantToRemove)){
+    let flag = false;
+    // buscar si el comerciante está en el inventario
+    this._inventory.forEach((merchant) => {
+      if(merchant.id === merchantToRemove.id && merchant.name === merchantToRemove.name && merchant.type === merchantToRemove.type && merchant.location === merchantToRemove.location){
+        flag = true;
+      }
+    });
+    if(flag === false){
       throw new NotInInventoryError('The merchant is not in the inventory');
     } else {
       this._inventory = this._inventory.filter((merchant) => merchant.id !== merchantToRemove.id);
@@ -161,6 +175,35 @@ export class DB_Merchant {
         ? ({ ...merchant, [key]: value } as Merchant)
         : merchant
     );
-}
+  }
+  searchMerchant<T extends keyof Merchant>(key: T, value: Merchant[T]): Merchant[] {
+    switch (key) {
+      case 'id':
+        IdError.validate(value as number);
+        break;
+
+      case 'name': 
+        if (typeof value !== 'string' || value.trim() === '') {
+          throw new Error('The name must be a non-empty string');
+        }
+        break;
+      case 'type':
+        if (!Object.values(MerchantType).includes(value as MerchantType)) {
+          throw new MerchantError(`Invalid merchant type: ${value}`);
+        }
+        break;
+      case 'location':
+        if (!Object.values(Locations).includes(value as Locations)) {
+          throw new LocationError(`Invalid location: ${value}`);
+        }
+        break;
+      default:
+        throw new InvalidKey(`Invalid key: ${key}`);
+      
+    }
+
+    return this._inventory.filter((merchant) => merchant[key] === value);
+  }
+
   
 }
