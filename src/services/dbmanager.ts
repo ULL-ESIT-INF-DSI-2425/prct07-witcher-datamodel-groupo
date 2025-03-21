@@ -11,8 +11,6 @@ import { JSONFile } from "lowdb/node";
 import { Low } from "lowdb";
 
 
-
-
 /**
  * Class that manages the database of the application.
  * It is responsible for initializing the database and managing the inventory of goods.
@@ -22,7 +20,7 @@ import { Low } from "lowdb";
 export class DBManager {
   private db_good: DB_Good;
   private db_merchant: DB_Merchant;
-  //private db_client: DB_Client;
+  private db_client: DB_Client;
 
   /**
    * Construct the dbmanager object and initializes every database
@@ -30,7 +28,7 @@ export class DBManager {
   constructor() {
     this.db_good = new DB_Good(new JSONFile<GoodSchema>('./src/db/db_good.json'), new Low<GoodSchema>(new JSONFile<GoodSchema>('./src/db/db_good.json'), { goods: [] }));
     this.db_merchant = new DB_Merchant(new JSONFile<MerchantSchema>('./src/db/db_merchants.json'), new Low<MerchantSchema>(new JSONFile<MerchantSchema>('./src/db/db_merchant.json'), { merchant: [] }));
-    //this.db_client = new DB_Client(new JSONFile<ClientSchema>('./src/db/db_client.json'), new Low<ClientSchema>(new JSONFile<ClientSchema>('./src/db/db_client.json'), { clients: [] }));
+    this.db_client = new DB_Client(new JSONFile<ClientSchema>('./src/db/db_client.json'), new Low<ClientSchema>(new JSONFile<ClientSchema>('./src/db/db_client.json'), { clients: [] }));
   }
 
   /** 
@@ -57,18 +55,6 @@ export class DBManager {
   }
 
   /**
-   * Returns the database of merchants.
-   * @returns The database of merchants.
-   * @example
-   * ```typescript
-   * const db_merchant = dbmanager.getDBMerchant();
-   * ```
-   */
-  // getDBMerchant(): DB_Merchant {
-  //   return this.db_merchant;
-  // }
-
-  /**
    * Returns the database of clients.
    * @returns The database of clients.
    * @example
@@ -76,9 +62,9 @@ export class DBManager {
    * const db_client = dbmanager.getDBClient();
    * ```
    */
-  // getDBClient(): DB_Client {
-  //   return this.db_client;
-  // }
+  getDBClient(): DB_Client {
+    return this.db_client;
+  }
 
   /**
    * Method that saves all the info allocated in memory on each database
@@ -87,7 +73,7 @@ export class DBManager {
   saveAll() {
     this.db_good.writeInventory();
     this.db_merchant.writeInventory();
-    //this.db_client.writeInventory();
+    this.db_client.writeInventory();
   }
 
 }

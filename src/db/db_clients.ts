@@ -10,7 +10,6 @@ import { Locations } from "../enums/locations.js";
 import { RaceError } from "../errors/raceerror.js";
 import { LocationError } from "../errors/locationerror.js";
 import { IdError } from "../errors/iderror.js";
-import { InvalidKey } from "../errors/invalidkey.js";
 import { TakenIdError } from "../errors/takeniderror.js";
 
 /**
@@ -41,6 +40,7 @@ export class DB_Client {
     this._db = db;
     this.adapter = new JSONFile<ClientSchema>(filepath);
     this.db = new Low<ClientSchema>(adapter, initialData);
+    this.readInventory();
   }
 
   /**

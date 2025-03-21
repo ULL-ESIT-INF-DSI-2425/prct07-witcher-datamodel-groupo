@@ -175,6 +175,7 @@ describe ("class DB_Clients tests", () => {
 
   it('should have a method to search a client by name, race or location', () => {
     dbClients.readInventory();
+    expect(dbClients.searchClient('id' , 3)).toEqual([{id: 3, name: 'Charlie', race: 'Dwarf', location: 'Skellige'}]);
     expect(dbClients.searchClient('name' , "Charlie")).toEqual([{id: 3, name: 'Charlie', race: 'Dwarf', location: 'Skellige'}]);
     expect(dbClients.searchClient('race' , Races.HALVELING)).toEqual([{id: 8, name: 'Hank', race: 'Halveling', location: 'Skellige'}]);
     

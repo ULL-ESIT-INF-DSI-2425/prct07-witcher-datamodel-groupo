@@ -1,0 +1,16 @@
+{
+  "clients": [
+    {
+      "id": 11,
+      "name": "nano",
+      "race": "Human",
+      "location": "Novigrad"
+    },
+    {
+      "id": 12,
+      "name": "alonso",
+      "race": "Witcher",
+      "location": "Skellige"
+    }
+  ]
+}

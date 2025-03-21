@@ -36,7 +36,7 @@ export const mainMenu = async () => {
         await goodMenu(db.getDBGood());
         break;
       case '🛡️\tManage clients':
-        await clientMenu();
+        await clientMenu(db.getDBClient());
         break;
       case '🔥\tManage merchants':
         await merchantMenu(db.getDBMerchant());
@@ -58,4 +58,5 @@ export const mainMenu = async () => {
 };
 
 // Start the main menu
+console.clear();
 mainMenu()

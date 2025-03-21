@@ -2,7 +2,8 @@ import inquirer  from "inquirer";
 import { addClient } from "./addclient.js";
 import { updateClient } from "./updateclient.js";
 // import { removeClient } from "./deleteclient.js";
-// import { searchClient } from "./searchclient.js";
+import { searchClient } from "./searchclient.js";
+import { DB_Client } from "../../db/db_clients.js";
 
 /**
  * Function to display the clients menu
@@ -13,7 +14,7 @@ import { updateClient } from "./updateclient.js";
  * await clientMenu();
  * ```
  */
-export const clientMenu = async () => {
+export const clientMenu = async (dbClient: DB_Client) => {
   let managing = true;
 
   while(managing){
@@ -36,11 +37,11 @@ export const clientMenu = async () => {
     switch (action) {
       case '➕\tAdd client':
         console.log('Adding client...');
-        await addClient();
+        await addClient(dbClient);
         break;
       case '📝\tUpdate client':
         console.log('Modifying client...');
-        await updateClient();
+        await updateClient(dbClient);
         break;
       case '🗑️\tRemove client':
         console.log('Removing client...');
@@ -48,7 +49,7 @@ export const clientMenu = async () => {
         break;
       case '🔍\tSearch client':
         console.log('Searching client...');
-        //await searchClient();
+        await searchClient(dbClient);
         break;
       case '⬅️\tBack':
         managing = false;  

@@ -1,6 +1,8 @@
 import inquirer from "inquirer";
 import { Races } from "../../enums/races.js";
 import { Locations } from "../../enums/locations.js";
+import { Client } from "../../models/client.js";
+import { DB_Client } from "../../db/db_clients.js";
 
 /**
  * Function to add a client
@@ -11,7 +13,7 @@ import { Locations } from "../../enums/locations.js";
  * await addClient();
  * ```
  */
-export const addClient = async () => {
+export const addClient = async (dbClient: DB_Client) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const answers = await inquirer.prompt([
     {
@@ -53,5 +55,17 @@ export const addClient = async () => {
     },
   ]);
 
-  // TODO ADD CLIENT TO DB
+  const newClient = new Client(
+    parseInt(answers.id),
+    answers.name,
+    answers.race,
+    answers.location
+  );
+
+  try {
+    dbClient.addClient(newClient);
+    console.log(`Client "${newClient.name}" added successfully to the database`);
+  } catch (error){
+    console.log(`Failed to add the client`, error);
+  }
 };
