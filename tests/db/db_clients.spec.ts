@@ -99,7 +99,7 @@ describe ("class DB_Clients tests", () => {
     console.log(dbClients._inventory);
     
     dbClients.readInventory();
-    let clientToModify = dbClients._inventory.find(client => client.id === 1);
+    let clientToModify = dbClients._inventory.find(client => client.id === 1) as Client;
 
     dbClients.modifyClient(clientToModify, "name", "Geraldo");
 

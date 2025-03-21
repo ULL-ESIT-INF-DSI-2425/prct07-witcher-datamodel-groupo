@@ -9,6 +9,8 @@ import { Races } from "../enums/races.js";
 import { Locations } from "../enums/locations.js";
 import { RaceError } from "../errors/raceerror.js";
 import { LocationError } from "../errors/locationerror.js";
+import { IdError } from "../errors/iderror.js";
+import { InvalidKey } from "../errors/invalidkey.js";
 
 /**
  * Class that represents the database of clients
@@ -164,5 +166,38 @@ export class DB_Client {
       ? ({ ...client, [key]: value } as Client)
       : client
     );
+  }
+
+  searchClient<T extends keyof Client>(key: T, value: Client[T]): Client[] {
+
+    switch(key){
+
+      case 'id':
+        IdError.validate(value as number);
+        break;
+
+      case 'name':
+        if (typeof value !== 'string' || value.trim() === '') {
+          throw new Error(`Invalid name: ${value}`);
+        } 
+        break;
+
+      case 'race':
+        if(!Object.values(Races).includes(value as Races)){
+          throw new RaceError(`Invalid race: ${value}`);
+        } 
+        break;
+
+      case 'location':
+        if(!Object.values(Locations).includes(value as Locations)){
+          throw new LocationError(`Invalid location: ${value}`);
+        } 
+        break;
+
+      default:
+        throw new InvalidKey(`Invalid key: ${key}`);
+    }
+
+    return this._inventory.filter((client) => client[key] === value);
   }
 };
