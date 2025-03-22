@@ -3,8 +3,16 @@ import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 import { TransactionsSchema } from "../types/transactionsschema.js";
 import { DB_Good } from "./db_good.js";
+import { DB_Merchant } from "./db_merchants.js";
+import { DB_Client } from "./db_client.js";
+
 import { Sale } from "../models/sale.js";
 import { Shop } from "../models/shop.js";
+import { Return } from "../models/return.js";
+
+import { Good } from "../models/good.js";
+import { Merchant } from "../models/merchant.js";
+import { Client } from "../models/client.js";
 
 /**
  * Represents the database of the transactions
@@ -18,83 +26,65 @@ export class DB_Transactions implements DBTransactions {
   accessor _db: Low<TransactionsSchema>;
   accessor _sales: Sale[] = [];
   accessor _shops: Shop[] = [];
+  accessor _returns: Return<Client | Merchant>[] = [];
 
+  /**
+   * The constructor of the DB_Transactions class
+   * @param adapter - The adapter of the database
+   * @param db - The database object
+   */
   constructor(
     public adapter: JSONFile<TransactionsSchema>,
     public db: Low<TransactionsSchema>,
-    public filePath: string = "./src/db/db_transactions.json",
-    public initialData: TransactionsSchema = { sale: [], shop: [] }
+    public filePath: string = './src/db/db_transactions.json',
+    public initialData: TransactionsSchema = { sale: [], shop: [], return: [] },
   ) {
     this._adapter = adapter;
     this._db = db;
     this.adapter = new JSONFile<TransactionsSchema>(filePath);
     this.db = new Low<TransactionsSchema>(this.adapter, initialData);
+    this.readTransactions();
   }
+  /**
+   * Method that initializes the database
+   * @returns Promise<void>
+   */
   async initDB(): Promise<void> {
     await this.db.read();
     this.db.data ||= this.initialData;
     await this.db.write();
   }
-  async readSales(): Promise<Sale[]> {
+  /**
+   * Method that reads the transactions from the database
+   * @returns Promise<void>
+   */
+  async readTransactions(): Promise<void> {
     await this.db.read();
     this._sales = this.db.data.sale;
-    return this._sales;
-  }
-  async readShops(): Promise<Shop[]> {
-    await this.db.read();
     this._shops = this.db.data.shop;
-    return this._shops;
+    this._returns = this.db.data.return;
   }
-  async writeTransaction(): Promise<void> {
-    this.db.data.sale = this._sales;
-    this.db.data.shop = this._shops;
+  /**
+   * Method that writes the transactions to the database
+   * @returns Promise<void>
+   */
+  async writeTransactions(): Promise<void> {
+    this.db.data.sale = [...this._sales];
+    this.db.data.shop = [...this._shops];
+    this.db.data.return = [...this._returns];
     await this.db.write();
   }
-  addSale(saleToAdd: Sale): void {
-    let sales_array: Sale[] = [];
-    this._sales.forEach((element) => {
-      sales_array.push(element);
-    });
-    if (sales_array.includes(saleToAdd)) {
-      throw new Error("Sale already exists"); // TODO crear nuevo error
-    } else {
-      // comprobar si hay stock suficiente del producto
-      let db_goods = new DB_Good(new JSONFile("./src/db/db_good.json"), new Low(new JSONFile("./src/db/db_good.json"), { goods: [] }));
-      db_goods.readInventory();
-      
-    }
-  }
-  addShop(shopToAdd: Shop): void {
-    let shops_array: Shop[] = [];
-    this._shops.forEach((element) => {
-      shops_array.push(element);
-    });
-    if (shops_array.includes(shopToAdd)) {
-      throw new Error("Shop already exists"); // TODO crear nuevo error
-    } else {
-      this._shops.push(shopToAdd);
-    }
-  }
-  removeSale(saleToRemove: Sale): void {
-    let sales_array: Sale[] = [];
-    this._sales.forEach((element) => {
-      sales_array.push(element);
-    });
-    if (!sales_array.includes(saleToRemove)) {
-      throw new Error("Sale does not exist"); // TODO crear nuevo error
-    } else {
-      this._sales = this._sales.filter((sale) => sale.good.id !== saleToRemove.good.id);
-    }
-  }
-  removeShop(shopToRemove: Shop): void {
-    let shops_array: Shop[] = [];
-    this._shops.forEach((element) => {
-      shops_array.push(element);
-    });
-    if (!shops_array.includes(shopToRemove)) {
-      throw new Error("Shop does not exist"); // TODO crear nuevo error
-    } else {
-      this._shops = this._shops.filter((shop) => shop.id !== shopToRemove.id);
-    }
-  }
+  // TODO: Implement the rest of the methods (addSale, addShop, addReturn and their respective delete methods)
+  // Recordar que hay que modificar la base de datos de DB_Good en función a las ventas, compras y devoluciones
+  // También hay que mirar si a la hora de añadir una venta, compra o devolución, hay que modificar la base de datos de los clientes y los comerciantes en caso 
+  // de que no estén en la base de datos registrados. 
+
+  // IMPORTANTE: a la hora de implementar el return, hay que hacer condicionales para saber si es un return de un cliente o de un comerciante antes de crear el objeto 
+  // Por lo tanto, la base de datos de transacciones no cambiará, pero la base de datos de clientes y comerciantes se usará para las comprobaciones de que el cliente o 
+  // comerciante existe y no es alguien random que ha hecho un return.
+  // También hay que tener en cuenta que a la hora de hacer un return, hay que comprobar si el good que se devuelve existe en la base de datos de los goods, y si existe,
+  // hay que incrementar el stock de ese good en la base de datos de los goods.
+
+  
+    
 }
