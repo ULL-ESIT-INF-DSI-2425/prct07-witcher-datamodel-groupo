@@ -125,24 +125,30 @@ describe('DB_Good', () => {
   it('Searching goods methods', () => {
     dbGood.readInventory();
     expect(dbGood.searchGoodsByName('Espada')).toEqual([
-      {
-        "description": "Una espada de acero",
-        "id": 1,
-        "material": "Makaham Steel",
-        "name": "Espada",
-        "value": 10,
-        "weight": 2,
-      },
+      [
+        {
+          "description": "Una espada de acero",
+          "id": 1,
+          "material": "Makaham Steel",
+          "name": "Espada",
+          "value": 10,
+          "weight": 2,
+        },
+        1,
+      ],
     ]);
     expect(dbGood.searchGoodsByDescription('Un escudo de madera')).toEqual([
-      {
-        "description": "Un escudo de madera",
-        "id": 4,
-        "material": "Monster Essence",
-        "name": "Escudo",
-        "value": 20,
-        "weight": 5,
-      }
+      [
+        {
+          "description": "Un escudo de madera",
+          "id": 4,
+          "material": "Monster Essence",
+          "name": "Escudo",
+          "value": 20,
+          "weight": 5,
+        },
+        1,
+      ],
     ]);
   });
 

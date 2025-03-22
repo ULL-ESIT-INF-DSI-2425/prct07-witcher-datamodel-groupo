@@ -146,13 +146,17 @@ export class DB_Good implements DBGood {
    * @param name - The name of the good to search for.
    * @returns An array of matching goods.
    */
-  searchGoodsByName(name: string): Good[] {
-    let nameResult = this._inventory
-      .map((goodStack) => goodStack[0]) 
-      .filter((good) => good.name.toLowerCase().includes(name.toLowerCase()));
+  searchGoodsByName(name: string): GoodStack[] {
+    // let nameResult = this._inventory
+    //   .map((goodStack) => goodStack[0]) 
+    //   .filter((good) => good.name.toLowerCase().includes(name.toLowerCase()));
+
+    let result = this._inventory
+      .map((goodStack) => goodStack)
+      .filter((good) => good[0].name.toLowerCase().includes(name.toLowerCase()));
 
     //console.table(nameResult);
-    return nameResult;
+    return result;
   }
 
   /**
@@ -160,13 +164,15 @@ export class DB_Good implements DBGood {
    * @param description - The description of the good to search for.
    * @returns An array of matching goods.
    */
-  searchGoodsByDescription(description: string): Good[] {
-    let descResult = this._inventory
-      .map((goodStack) => goodStack[0]) 
-      .filter((good) => good.description.toLowerCase().includes(description.toLowerCase()));
-
+  searchGoodsByDescription(description: string): GoodStack[] {
+  //   let descResult = this._inventory
+  //     .map((goodStack) => goodStack[0]) 
+  //     .filter((good) => good.description.toLowerCase().includes(description.toLowerCase()));
+    let result = this._inventory
+    .map((goodStack) => goodStack)
+    .filter((good) => good[0].description.toLowerCase().includes(description.toLowerCase()));
     //console.table(descResult);
-    return descResult;
+    return result;
   }
 
   /**

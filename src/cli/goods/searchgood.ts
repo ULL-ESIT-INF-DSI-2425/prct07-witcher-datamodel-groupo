@@ -1,14 +1,14 @@
 import inquirer from "inquirer";
 import { DB_Good } from '../../db/db_good.js';
-import { Good } from '../../models/good.js';
+import { GoodStack } from '../../types/goodstack.js';
 
 /**
- * Function to remove a good
+ * Function to search a good
  * 
- * removeGood
+ * searchGood
  * @example
  * ```typescript
- * await removeGood();
+ * await searchGood();
  * ```
  */
 export const searchGood = async (dbGood: DB_Good) => {
@@ -30,7 +30,7 @@ export const searchGood = async (dbGood: DB_Good) => {
     },
   ]);
 
-  let results: Good[] = [];
+  let results: GoodStack[] = [];
 
   if (answers.searchby === "name") {
     results = dbGood.searchGoodsByName(answers.query);
@@ -40,13 +40,14 @@ export const searchGood = async (dbGood: DB_Good) => {
 
   if (results.length > 0) {
     console.log("Search results:");
-    console.table(results.map((good) => ({
-      ID: good.id,
-      Name: good.name,
-      Description: good.description,
-      Material: good.material,
-      Weight: good.weight,
-      Value: good.value,
+    console.table(results.map((goodstack) => ({
+      ID: goodstack[0].id,
+      Name: goodstack[0].name,
+      Description: goodstack[0].description,
+      Material: goodstack[0].material,
+      Weight: goodstack[0].weight,
+      Value: goodstack[0].value,
+      Quantity: goodstack[1],
     })));
   } else {
     console.log("No goods found matching your search criteria.");

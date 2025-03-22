@@ -3,6 +3,7 @@ import { goodMenu } from './goods/goods-menu.js';
 import { clientMenu } from './clients/client-menu.js';
 import { merchantMenu } from './merchants/merchant-menu.js';
 import { DBManager } from '../services/dbmanager.js';
+import { reportsMenu } from './reports/reports-menu.js';
 
 /**
  * Function to manage the main menu
@@ -45,7 +46,7 @@ export const mainMenu = async () => {
         //await registerTransaction();
         break;
       case '📊\tReports management':
-        //await manageReports();
+        await reportsMenu(db);
         break;
       case '❌\tExit':
         running = false;
