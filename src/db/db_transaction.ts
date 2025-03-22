@@ -120,6 +120,24 @@ export class DB_Transactions implements DBTransactions {
       } 
     }
   }
+  /**
+   * Method that adds a shop to the database
+   * @param shop - The shop to add
+   * @returns void
+   */
+  addShop(shopToAdd: Shop): void {
+    let shops_array: Shop[] = [];
+    this._shops.forEach((shop) => {
+      shops_array.push(shop);
+    });
+
+    if (shops_array.some((shop) => shop.id === shopToAdd.id)) {
+      throw new TakenIdError("The id of the shop is already taken");
+    } else {
+      this._shops.push(shopToAdd);
+    }
+  }
+
   
     
 }
