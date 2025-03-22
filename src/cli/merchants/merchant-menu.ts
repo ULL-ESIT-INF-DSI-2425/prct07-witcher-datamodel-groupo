@@ -2,6 +2,8 @@ import inquirer from "inquirer";
 import { addMerchant } from "./addmerchant.js";
 import { DB_Merchant } from "../../db/db_merchants.js";
 import { removeMerchant } from "./removemerchant.js";
+import { updateMerchant } from "./updatemerchant.js";
+import { searchMerchant } from "./searchmerchant.js";
 //import { updateMerchant } from "./update-merchant";
 //import { removeMerchant } from "./remove-merchant";
 //import { searchMerchant } from "./search-merchant";
@@ -39,15 +41,13 @@ export const merchantMenu = async (dbMerchant: DB_Merchant) => {
         await addMerchant(dbMerchant);
         break;
       case "📝\tUpdate merchant":
-        console.log("Updating merchant...");
-        //await updateMerchant();
+        await updateMerchant(dbMerchant);
         break;
       case "🗑️\tRemove merchant":
         await removeMerchant(dbMerchant);
         break;
       case "🔍\tSearch merchant":
-        console.log("Searching merchant...");
-        // await searchMerchant();
+        await searchMerchant(dbMerchant);
         break;
       case "⬅️\tBack":
         managing = false;
