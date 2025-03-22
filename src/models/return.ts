@@ -10,16 +10,19 @@ import { Good } from "./good.js";
  * @param {Date} _date - The date of the return
  */
 export class Return<T> {
+  accessor _id: number; 
   accessor _agent: T;
   accessor _good: Good; // el bien que se devuelve
   private _quantity: number;
   private _date: Date;
   constructor(
+    public id: number,
     public agent: T,
     public good: Good,
     public quantity: number,
     public date: Date
   ) {
+    this._id = id;
     this._agent = agent;
     this._good = good;
     this._quantity = quantity;

@@ -11,6 +11,7 @@ export class Sale extends Transaction {
   accessor _client: Client;
   /**
    * The constructor of the class
+   * @param id - The id of the sale
    * @param client - The client who made the sale
    * @param good - The good that was sold
    * @param quantity - The quantity of the good that was sold
@@ -18,13 +19,14 @@ export class Sale extends Transaction {
    * @param date - The date of the sale
    */
   constructor(
+    public id: number,
     public client: Client,
     public good: Good,
     public quantity: number,
     public total_price: number,
     public date: Date
   ) {
-    super(good, quantity, total_price, date);
+    super(id, good, quantity, total_price, date);
     this._client = client;
   }
   

@@ -10,6 +10,7 @@ import { Good } from "../models/good.js";
  * @param {Date} _date - The date of the transaction
  */
 export abstract class Transaction implements TransactionsInfo {
+  accessor _id: number;
   accessor _good: Good;
   accessor _quantity: number;
   accessor _total_price: number;
@@ -23,11 +24,13 @@ export abstract class Transaction implements TransactionsInfo {
    * @param date - The date of the transaction
    */
   constructor(
+    public id: number,
     public good: Good,
     public quantity: number,
     public total_price: number,
     public date: Date
   ) {
+    this._id = id;
     this._good = good;
     this._quantity = quantity;
     this._total_price = total_price;

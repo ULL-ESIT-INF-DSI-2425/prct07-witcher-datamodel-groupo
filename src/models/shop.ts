@@ -12,6 +12,7 @@ export class Shop extends Transaction {
   
   /**
    * The constructor of the class
+   * @param id - The id of the shop
    * @param merchant - The merchant who made the shop
    * @param good - The good that was bought
    * @param quantity - The quantity of the good that was bought
@@ -19,13 +20,14 @@ export class Shop extends Transaction {
    * @param date - The date of the shop
    */
   constructor(
+    public id: number,
     public merchant: Merchant,
     public good: Good,
     public quantity: number,
     public total_price: number,
     public date: Date
   ) {
-    super(good, quantity, total_price, date);
+    super(id, good, quantity, total_price, date);
     this._merchant = merchant;
   }
 

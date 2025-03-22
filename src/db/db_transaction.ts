@@ -2,9 +2,7 @@ import { DBTransactions } from "../interfaces/db_transaction.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 import { TransactionsSchema } from "../types/transactionsschema.js";
-import { DB_Good } from "./db_good.js";
-import { DB_Merchant } from "./db_merchants.js";
-import { DB_Client } from "./db_clients.js";
+import { DBManager } from "../services/dbmanager.js";
 
 import { Sale } from "../models/sale.js";
 import { Shop } from "../models/shop.js";
@@ -13,6 +11,8 @@ import { Return } from "../models/return.js";
 import { Good } from "../models/good.js";
 import { Merchant } from "../models/merchant.js";
 import { Client } from "../models/client.js";
+
+import { TakenIdError } from "../errors/takeniderror.js";
 
 /**
  * Represents the database of the transactions
@@ -27,6 +27,7 @@ export class DB_Transactions implements DBTransactions {
   accessor _sales: Sale[] = [];
   accessor _shops: Shop[] = [];
   accessor _returns: Return<Client | Merchant>[] = [];
+  accessor _dbmanager: DBManager;
 
   /**
    * The constructor of the DB_Transactions class
@@ -38,11 +39,13 @@ export class DB_Transactions implements DBTransactions {
     public db: Low<TransactionsSchema>,
     public filePath: string = './src/db/db_transactions.json',
     public initialData: TransactionsSchema = { sale: [], shop: [], return: [] },
+    
   ) {
     this._adapter = adapter;
     this._db = db;
     this.adapter = new JSONFile<TransactionsSchema>(filePath);
     this.db = new Low<TransactionsSchema>(this.adapter, initialData);
+    this._dbmanager = new DBManager();
     this.readTransactions();
   }
   /**
@@ -85,6 +88,37 @@ export class DB_Transactions implements DBTransactions {
   // También hay que tener en cuenta que a la hora de hacer un return, hay que comprobar si el good que se devuelve existe en la base de datos de los goods, y si existe,
   // hay que incrementar el stock de ese good en la base de datos de los goods.
 
+  /**
+   * Method that adds a sale to the database
+   * @param sale - The sale to add
+   * @returns Promise<void>
+   */
+  addSale(saleToAdd: Sale): void {
+    let sales_array: Sale[] = [];
+    this._sales.forEach((sale) => {
+      sales_array.push(sale);
+    });
+
+    if (sales_array.some((sale) => sale.id === saleToAdd.id)) {
+      throw new TakenIdError("The id of the sale is already taken");
+    } else {
+      // hay que modificar la base de datos de los goods con dbmanager
+      // primero hay que comprobar si el good de la venta existe en la base de datos de los goods
+      // si existe, hay que decrementar el stock de ese good en la base de datos de los goods
+      // si no existe, error
+      
+      if (this._dbmanager.getDBGood().searchGoodsByName(saleToAdd.good.name)) {
+        this._sales.push(saleToAdd);
+        // hacer un bucle en funcion al numero de elementos que se quiera quitar de goods. Se hacen llamadas consecutivas a removeGood, ya que se elimina de uno en uno (por ejemplo si se compran 3 goods, hay que llamar 3 veces a removeGood para que el numero de good disminuya)
+        for (let i = 0; i < saleToAdd.quantity; i++) {
+          this._dbmanager.getDBGood().removeGood(saleToAdd.good);
+        }
+        // comprobar si el cliente existe en la base de datos de los clientes. Si no está, registrarlo
+      } 
+
+
+    }
+  }
   
     
 }
