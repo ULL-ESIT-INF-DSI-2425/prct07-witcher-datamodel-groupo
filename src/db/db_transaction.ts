@@ -114,9 +114,10 @@ export class DB_Transactions implements DBTransactions {
           this._dbmanager.getDBGood().removeGood(saleToAdd.good);
         }
         // comprobar si el cliente existe en la base de datos de los clientes. Si no está, registrarlo
+        if (!this._dbmanager.getDBClient().searchClient("name", saleToAdd.client.name)) {
+          this._dbmanager.getDBClient().addClient(saleToAdd.client);
+        }
       } 
-
-
     }
   }
   
