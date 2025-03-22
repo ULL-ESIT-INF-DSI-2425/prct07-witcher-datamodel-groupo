@@ -4,10 +4,10 @@ import { Good } from "../models/good.js";
 /**
  * Represent a Transaction object with its properties
  * 
- * @param {Good} _good - The good of the transaction
- * @param {number} _quantity - The quantity of the good of the transaction
- * @param {number} _total_price - The total price of the transaction
- * @param {Date} _date - The date of the transaction
+ * @param _good - The good of the transaction
+ * @param _quantity - The quantity of the good of the transaction
+ * @param _total_price - The total price of the transaction
+ * @param _date - The date of the transaction
  */
 export abstract class Transaction implements TransactionsInfo {
   accessor _id: number;

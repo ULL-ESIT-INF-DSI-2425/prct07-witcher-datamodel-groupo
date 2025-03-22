@@ -1,10 +1,16 @@
 {
   "merchant": [
     {
+      "id": 2,
+      "name": "Alberto el chupacabras",
+      "type": "Alchemist",
+      "location": "Nilfgaard"
+    },
+    {
       "id": 3,
       "name": "Iorveth",
       "type": "Alchemist",
-      "location": "Kaer Morhen"
+      "location": "Skellige"
     },
     {
       "id": 1,
@@ -14,7 +20,7 @@
     },
     {
       "id": 4,
-      "name": "felipe",
+      "name": "Keira Metz",
       "type": "General Merchant",
       "location": "Toussant"
     },

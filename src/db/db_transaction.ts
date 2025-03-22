@@ -14,130 +14,154 @@ import { Client } from "../models/client.js";
 
 import { TakenIdError } from "../errors/takeniderror.js";
 
-/**
- * Represents the database of the transactions
- * 
- * Class DB_Transactions
- * @param adapter - The adapter of the database
- * @param db - The database object
- */
-export class DB_Transactions implements DBTransactions {
-  accessor _adapter: JSONFile<TransactionsSchema>;
-  accessor _db: Low<TransactionsSchema>;
+export class DB_Transactions implements DBTransactions  {
+  readonly adapter: JSONFile<TransactionsSchema>;
+  readonly db: Low<TransactionsSchema>;
   accessor _sales: Sale[] = [];
   accessor _shops: Shop[] = [];
   accessor _returns: Return<Client | Merchant>[] = [];
   accessor _dbmanager: DBManager;
 
-  /**
-   * The constructor of the DB_Transactions class
-   * @param adapter - The adapter of the database
-   * @param db - The database object
-   */
   constructor(
-    public adapter: JSONFile<TransactionsSchema>,
-    public db: Low<TransactionsSchema>,
     public filePath: string = './src/db/db_transactions.json',
     public initialData: TransactionsSchema = { sale: [], shop: [], return: [] },
-    
+    public readonly manager: DBManager
   ) {
-    this._adapter = adapter;
-    this._db = db;
     this.adapter = new JSONFile<TransactionsSchema>(filePath);
     this.db = new Low<TransactionsSchema>(this.adapter, initialData);
-    this._dbmanager = new DBManager();
+    this._dbmanager = manager;
     this.readTransactions();
   }
-  /**
-   * Method that initializes the database
-   * @returns Promise<void>
-   */
+
   async initDB(): Promise<void> {
     await this.db.read();
     this.db.data ||= this.initialData;
     await this.db.write();
   }
-  /**
-   * Method that reads the transactions from the database
-   * @returns Promise<void>
-   */
+
   async readTransactions(): Promise<void> {
     await this.db.read();
     this._sales = this.db.data.sale;
     this._shops = this.db.data.shop;
     this._returns = this.db.data.return;
   }
-  /**
-   * Method that writes the transactions to the database
-   * @returns Promise<void>
-   */
+
   async writeTransactions(): Promise<void> {
     this.db.data.sale = [...this._sales];
     this.db.data.shop = [...this._shops];
     this.db.data.return = [...this._returns];
     await this.db.write();
   }
-  // TODO: Implement the rest of the methods (addSale, addShop, addReturn and their respective delete methods)
-  // Recordar que hay que modificar la base de datos de DB_Good en función a las ventas, compras y devoluciones
-  // También hay que mirar si a la hora de añadir una venta, compra o devolución, hay que modificar la base de datos de los clientes y los comerciantes en caso 
-  // de que no estén en la base de datos registrados. 
 
-  // IMPORTANTE: a la hora de implementar el return, hay que hacer condicionales para saber si es un return de un cliente o de un comerciante antes de crear el objeto 
-  // Por lo tanto, la base de datos de transacciones no cambiará, pero la base de datos de clientes y comerciantes se usará para las comprobaciones de que el cliente o 
-  // comerciante existe y no es alguien random que ha hecho un return.
-  // También hay que tener en cuenta que a la hora de hacer un return, hay que comprobar si el good que se devuelve existe en la base de datos de los goods, y si existe,
-  // hay que incrementar el stock de ese good en la base de datos de los goods.
-
-  /**
-   * Method that adds a sale to the database
-   * @param sale - The sale to add
-   * @returns Promise<void>
-   */
   addSale(saleToAdd: Sale): void {
-    let sales_array: Sale[] = [];
-    this._sales.forEach((sale) => {
-      sales_array.push(sale);
-    });
-
-    if (sales_array.some((sale) => sale.id === saleToAdd.id)) {
+    // Verificar si el ID de la venta ya está tomado
+    if (this._sales.some((sale) => sale.id === saleToAdd.id)) {
       throw new TakenIdError("The id of the sale is already taken");
-    } else {
-      // hay que modificar la base de datos de los goods con dbmanager
-      // primero hay que comprobar si el good de la venta existe en la base de datos de los goods
-      // si existe, hay que decrementar el stock de ese good en la base de datos de los goods
-      // si no existe, error
-      
-      if (this._dbmanager.getDBGood().searchGoodsByName(saleToAdd.good.name)) {
-        this._sales.push(saleToAdd);
-        // hacer un bucle en funcion al numero de elementos que se quiera quitar de goods. Se hacen llamadas consecutivas a removeGood, ya que se elimina de uno en uno (por ejemplo si se compran 3 goods, hay que llamar 3 veces a removeGood para que el numero de good disminuya)
-        for (let i = 0; i < saleToAdd.quantity; i++) {
-          this._dbmanager.getDBGood().removeGood(saleToAdd.good);
-        }
-        // comprobar si el cliente existe en la base de datos de los clientes. Si no está, registrarlo
-        if (!this._dbmanager.getDBClient().searchClient("name", saleToAdd.client.name)) {
-          this._dbmanager.getDBClient().addClient(saleToAdd.client);
-        }
-      } 
     }
-  }
-  /**
-   * Method that adds a shop to the database
-   * @param shop - The shop to add
-   * @returns void
-   */
-  addShop(shopToAdd: Shop): void {
-    let shops_array: Shop[] = [];
-    this._shops.forEach((shop) => {
-      shops_array.push(shop);
-    });
-
-    if (shops_array.some((shop) => shop.id === shopToAdd.id)) {
-      throw new TakenIdError("The id of the shop is already taken");
-    } else {
-      this._shops.push(shopToAdd);
-    }
-  }
-
   
-    
+    // Verificar si el bien existe en la base de datos de bienes
+    const goodStack = this._dbmanager.getDBGood()._inventory.find(
+      (good) => good[0].id === saleToAdd.good.id
+    );
+
+    if (!goodStack) {
+      throw new Error("The good does not exist in the database");
+    }
+  
+    // Verificar si hay suficiente stock del bien
+    if (goodStack[1] < saleToAdd.quantity) {
+      throw new Error(
+        `Not enough stock for the good "${saleToAdd.good.name}". Available: ${goodStack[1]}, Requested: ${saleToAdd.quantity}`
+      );
+    }
+  
+    // Verificar si el cliente tiene suficiente dinero
+    if (saleToAdd.total_price < goodStack[0]._value * saleToAdd.quantity) {
+      throw new Error(
+        `The client "${saleToAdd.client.name}" does not have enough money. Required: ${saleToAdd.total_price}, Available: ${saleToAdd.total_price}`
+      );
+    }
+  
+    // Decrementar el stock del bien
+    this._dbmanager.getDBGood().removeGood(goodStack[0]);
+  
+    // Añadir la venta a la base de datos de ventas
+    this._sales.push(saleToAdd);
+  
+    console.log(`Sale with ID ${saleToAdd.id} added successfully.`);
+  }
+
+  removeSale(saleId: number): void {
+    const saleIndex = this._sales.findIndex((sale) => sale.id === saleId);
+    if (saleIndex === -1) {
+      throw new Error(`Sale with ID ${saleId} does not exist.`);
+    }
+  
+    // Restaurar el stock del bien asociado a la venta
+    const saleToRemove = this._sales[saleIndex];
+    for (let i = 0; i < saleToRemove.quantity; i++) {
+      this._dbmanager.getDBGood().addGood(saleToRemove.good);
+    }
+  
+    // Eliminar la venta
+    this._sales.splice(saleIndex, 1);
+    console.log(`Sale with ID ${saleId} removed successfully.`);
+  }
+  
+
+  addShop(shopToAdd: Shop): void {
+    if (this._shops.some((shop) => shop.id === shopToAdd.id)) {
+      throw new TakenIdError("The id of the shop is already taken");
+    }
+    this._shops.push(shopToAdd);
+  }
+
+  removeShop(shopId: number): void {
+    const shopIndex = this._shops.findIndex((shop) => shop.id === shopId);
+    if (shopIndex === -1) {
+      throw new Error(`Shop with ID ${shopId} does not exist.`);
+    }
+  
+    // Eliminar la tienda
+    this._shops.splice(shopIndex, 1);
+    console.log(`Shop with ID ${shopId} removed successfully.`);
+  }
+
+  addReturn(returnToAdd: Return<Client | Merchant>): void {
+    if (this._returns.some((ret) => ret._id === returnToAdd._id)) {
+      throw new TakenIdError("The id of the return is already taken");
+    }
+    if (!this._dbmanager.getDBGood().searchGoodsByName(returnToAdd._good.name)) {
+      throw new Error("The good does not exist in the database");
+    }
+    for (let i = 0; i < returnToAdd._quantity; i++) {
+      this._dbmanager.getDBGood().addGood(returnToAdd._good);
+    }
+    if (returnToAdd._agent instanceof Client && 
+        !this._dbmanager.getDBClient().searchClient("name", returnToAdd._agent.name)) {
+      this._dbmanager.getDBClient().addClient(returnToAdd._agent);
+    }
+    if (returnToAdd._agent instanceof Merchant && 
+        !this._dbmanager.getDBMerchant().searchMerchant("name", returnToAdd._agent.name)) {
+      this._dbmanager.getDBMerchant().addMerchant(returnToAdd._agent);
+    }
+    this._returns.push(returnToAdd);
+  }
+
+  removeReturn(returnId: number): void {
+    const returnIndex = this._returns.findIndex((ret) => ret._id === returnId);
+    if (returnIndex === -1) {
+      throw new Error(`Return with ID ${returnId} does not exist.`);
+    }
+  
+    // Revertir los cambios en el inventario
+    const returnToRemove = this._returns[returnIndex];
+    for (let i = 0; i < returnToRemove._quantity; i++) {
+      this._dbmanager.getDBGood().removeGood(returnToRemove._good);
+    }
+  
+    // Eliminar la devolución
+    this._returns.splice(returnIndex, 1);
+    console.log(`Return with ID ${returnId} removed successfully.`);
+  }
 }
