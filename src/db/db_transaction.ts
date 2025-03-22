@@ -4,7 +4,7 @@ import { JSONFile } from "lowdb/node";
 import { TransactionsSchema } from "../types/transactionsschema.js";
 import { DB_Good } from "./db_good.js";
 import { DB_Merchant } from "./db_merchants.js";
-import { DB_Client } from "./db_client.js";
+import { DB_Client } from "./db_clients.js";
 
 import { Sale } from "../models/sale.js";
 import { Shop } from "../models/shop.js";

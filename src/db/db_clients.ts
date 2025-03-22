@@ -177,8 +177,9 @@ export class DB_Client {
     switch(key){
 
       case 'id':
-        IdError.validate(value as number);
-        break;
+        IdError.validate(Number(value));
+        let valueSearch = Number(value);
+        return this._inventory.filter((client) => client[key] === valueSearch);
 
       case 'name':
         if (typeof value !== 'string' || value.trim() === '') {
