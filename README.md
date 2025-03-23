@@ -160,9 +160,9 @@ Pruebas relativas a los servicios de sobre los bienes, clientes y mercaderes.
 # 3. Comandos para el funcionamiento de la practica
 
 * Instalación de dependencias:
-```bash
-npm install
-```
+  ```
+  npm install
+  ```
 * Para la ejecución de la **Aplicación de gestión de inventario de la posada El Lobo Blanco**, se deberá usar el comando:
   ```
   npm run app
