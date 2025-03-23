@@ -1,7 +1,8 @@
 {
-  "sale": [
+  "sale": [],
+  "shop": [
     {
-      "id": 2,
+      "id": 3,
       "good": {
         "id": 1,
         "name": "Espada Legendaria",
@@ -12,95 +13,14 @@
       },
       "quantity": 3,
       "total_price": 10,
-      "date": "2025-03-23T21:38:03.253Z",
-      "client": {
-        "id": 1,
-        "name": "Geraldo",
-        "race": "Witcher",
-        "location": "Kaer Morhen"
-      }
-    },
-    {
-      "id": 1,
-      "good": {
-        "id": 1,
-        "name": "Espada Legendaria",
-        "description": "Una espada legendaria de acero",
-        "material": "Makaham Steel",
-        "weight": 2,
-        "value": 10
-      },
-      "quantity": 5,
-      "total_price": 50,
-      "date": "2025-03-23T21:41:08.915Z",
-      "client": {
-        "id": 5,
-        "name": "Eve",
-        "race": "Human",
-        "location": "Redania"
-      }
-    },
-    {
-      "id": 3,
-      "good": {
-        "id": 3,
-        "name": "Martillo",
-        "description": "Un martillo de acero",
-        "material": "Steel Line",
-        "weight": 2.5,
-        "value": 12
-      },
-      "quantity": 3,
-      "total_price": 36,
-      "date": "2025-03-23T21:42:22.501Z",
-      "client": {
-        "id": 6,
-        "name": "Frank",
-        "race": "Elf",
-        "location": "Nilfgaard"
-      }
-    },
-    {
-      "id": 5,
-      "good": {
-        "id": 10,
-        "name": "Lanza",
-        "description": "Una lanza de acero",
-        "material": "Steel Line",
-        "weight": 4,
-        "value": 25
-      },
-      "quantity": 2,
-      "total_price": 50,
-      "date": "2025-03-23T21:42:58.346Z",
-      "client": {
-        "id": 7,
-        "name": "Grace",
-        "race": "Dwarf",
-        "location": "Novigrad"
+      "date": "2025-03-23T23:50:07.683Z",
+      "merchant": {
+        "id": 2,
+        "name": "Gremist",
+        "type": "Alchemist",
+        "location": "Skellige"
       }
     }
   ],
-  "shop": [],
-  "return": [
-    {
-      "id": 3,
-      "agent": {
-        "id": 2,
-        "name": "Alberto el chupacabras",
-        "type": "Alchemist",
-        "location": "Nilfgaard"
-      },
-      "good": {
-        "id": 1,
-        "name": "Espada Legendaria",
-        "description": "Una espada legendaria de acero",
-        "material": "Makaham Steel",
-        "weight": 2,
-        "value": 10
-      },
-      "quantity": 3,
-      "date": "2025-03-23T21:38:03.293Z"
-    }
-  ]
+  "return": []
 }
