@@ -4,7 +4,7 @@ import { Return } from "../models/return.js";
 import { Client } from "../models/client.js";
 import { Merchant } from "../models/merchant.js";
 /**
- * Represents the schema of the transactions information
+ * Type that represents the schema for the transactions in transaction.json file
  */
 export type TransactionsSchema = {
   sale: Sale[];

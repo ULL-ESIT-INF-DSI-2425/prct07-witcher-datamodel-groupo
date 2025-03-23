@@ -1,15 +1,15 @@
 import { AppError } from './apperror.js';
 
 /**
- * MerchantError
+ * TakenIdError class
  * 
  * This class should be used to handle errors that occur in the merchant service.
  */
 export class TakenIdError extends AppError {
   /**
-   * Constructor
+   * Constructor of the class TakenIdError
    * 
-   * @param string - message - The error message
+   * @param message - The error message
    */
   constructor(message: string) {
     super(message);

@@ -2,7 +2,7 @@ import { AppError } from './apperror.js';
 import { MerchantType } from '../enums/merchantType.js';
 
 /**
- * MerchantError
+ * MerchantError class.
  * 
  * This class should be used to handle errors that occur in the merchant service.
  */
@@ -10,7 +10,7 @@ export class MerchantError extends AppError {
   /**
    * Constructor
    * 
-   * @param string - message - The error message
+   * @param message - The error message
    */
   constructor(message: string) {
     super(message);
@@ -20,7 +20,7 @@ export class MerchantError extends AppError {
   /**
    * Validate if the merchant type is valid
    * 
-   * @param MerchantType - merchant - The merchant type to validate
+   * @param merchant - The merchant type to validate
    */
   static validate(merchant: MerchantType): void {
     if (!Object.values(MerchantType).includes(merchant)) {

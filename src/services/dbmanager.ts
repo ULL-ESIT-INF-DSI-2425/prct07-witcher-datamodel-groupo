@@ -16,6 +16,9 @@ import { Low } from "lowdb";
  * It is responsible for initializing the database and managing the inventory of goods.
  * 
  * class DBManager
+ * @param db_good - The database of goods.
+ * @param db_merchant - The database of merchants.
+ * @param db_client - The database of clients.
  */
 export class DBManager {
   private db_good: DB_Good;
@@ -29,6 +32,7 @@ export class DBManager {
     this.db_good = new DB_Good(new JSONFile<GoodSchema>('./src/db/db_good.json'), new Low<GoodSchema>(new JSONFile<GoodSchema>('./src/db/db_good.json'), { goods: [] }));
     this.db_merchant = new DB_Merchant(new JSONFile<MerchantSchema>('./src/db/db_merchants.json'), new Low<MerchantSchema>(new JSONFile<MerchantSchema>('./src/db/db_merchant.json'), { merchant: [] }));
     this.db_client = new DB_Client(new JSONFile<ClientSchema>('./src/db/db_clients.json'), new Low<ClientSchema>(new JSONFile<ClientSchema>('./src/db/db_clients.json'), { clients: [] }));
+    
   }
 
   /** 
@@ -42,6 +46,7 @@ export class DBManager {
   getDBGood(): DB_Good {
     return this.db_good;
   }
+
   /**
    * Return the database of merchants
    * @returns The database of merchants
@@ -69,6 +74,10 @@ export class DBManager {
   /**
    * Method that saves all the info allocated in memory on each database
    * Will be called when the App is called to close
+   * @example
+   * ```typescript
+   * dbmanager.saveAll();
+   * ```
    */
   saveAll() {
     this.db_good.writeInventory();

@@ -8,6 +8,12 @@ import { IdError } from "../errors/iderror.js";
  * Represents a Good type object with its information
  *
  * Class Good
+ * @param _id - identification number of the good (number)
+ * @param _name - name of the good (string)
+ * @param _description - description with the origin and use of the good (string)
+ * @param _material - materials that makes the good (Materials enum)
+ * @param _weight - weight of the good (number)
+ * @param _value - value in Crowns of the good (number)
  */
 export class Good implements GoodInfo {
   accessor _id: number;

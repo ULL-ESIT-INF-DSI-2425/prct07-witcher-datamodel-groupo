@@ -9,6 +9,7 @@ export class ClientAlreadyExistsError extends AppError {
   
   /**
    * The constructor of the class ClientAlreadyExistsError.
+   * 
    * @param message - The error message to be shown.
    */
   constructor(message: string) {

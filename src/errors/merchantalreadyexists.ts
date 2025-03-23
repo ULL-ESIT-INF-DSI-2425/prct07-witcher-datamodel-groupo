@@ -8,6 +8,7 @@ import { AppError } from "./apperror.js";
 export class MerchantAlreadyExistsError extends AppError {
   /**
    * The constructor of the class MerchantAlreadyExistsError.
+   * 
    * @param message - The error message to be shown.
    */
   constructor(message: string) {

@@ -14,7 +14,6 @@ import { Client } from "../../models/client.js";
  * ```
  */
 export const updateClient = async (dbClient: DB_Client) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const answers = await inquirer.prompt([
     {
       type: 'input',

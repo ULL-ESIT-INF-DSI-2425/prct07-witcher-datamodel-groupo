@@ -4,7 +4,8 @@ import { clientMenu } from './clients/client-menu.js';
 import { merchantMenu } from './merchants/merchant-menu.js';
 import { DBManager } from '../services/dbmanager.js';
 import { reportsMenu } from './reports/reports-menu.js';
-
+import { DB_Transactions } from '../db/db_transaction.js'
+import { transactionMenu } from "./transactions/transactions-menu.js"
 /**
  * Function to manage the main menu
  * 
@@ -14,6 +15,9 @@ export const mainMenu = async () => {
   let running = true;
 
   const db = new DBManager();
+
+  const filePath = './src/db/db_transactions.json'
+  let transactions = new DB_Transactions(filePath, db.getDBGood(), db.getDBMerchant(), db.getDBClient());
 
   while (running) {
     const { action } = await inquirer.prompt([
@@ -43,7 +47,7 @@ export const mainMenu = async () => {
         await merchantMenu(db.getDBMerchant());
         break;
       case '💰\tRegister a transaction':
-        //await registerTransaction();
+        await transactionMenu(transactions);
         break;
       case '📊\tReports management':
         await reportsMenu(db);

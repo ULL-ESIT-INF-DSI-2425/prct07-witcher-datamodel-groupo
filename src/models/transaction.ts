@@ -1,15 +1,16 @@
-import { TransactionsInfo } from "../interfaces/transactionsinfo.js";
+//import { TransactionsInfo } from "../interfaces/transactionsinfo.js";
 import { Good } from "../models/good.js";
 
 /**
  * Represent a Transaction object with its properties
  * 
+ * Class Transaction
  * @param _good - The good of the transaction
  * @param _quantity - The quantity of the good of the transaction
  * @param _total_price - The total price of the transaction
  * @param _date - The date of the transaction
  */
-export abstract class Transaction implements TransactionsInfo {
+export abstract class Transaction {
   accessor _id: number;
   accessor _good: Good;
   accessor _quantity: number;

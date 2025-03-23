@@ -6,12 +6,10 @@ import { DB_Client } from "../../src/db/db_clients.js";
 import { Client } from "../../src/models/client.js";
 import { Races } from "../../src/enums/races.js";
 import { Locations } from "../../src/enums/locations.js";
-import { ClientAlreadyExistsError } from "../../src/errors/clientalreadyexits.js";
 import { NotInInventoryError } from "../../src/errors/notininventoryerror.js";
 import { RaceError } from "../../src/errors/raceerror.js";
 import { LocationError } from "../../src/errors/locationerror.js";
 import { TakenIdError } from "../../src/errors/takeniderror.js";
-import { IdError } from "../../src/errors/iderror.js";
 import { AppError } from "../../src/errors/apperror.js";
 
 describe ("class DB_Clients tests", () => {
@@ -132,9 +130,9 @@ describe ("class DB_Clients tests", () => {
 
     dbClients.readInventory();
     let clientToModify = dbClients._inventory.find(client => client.id === 2);
-
+    
     if(!clientToModify) {
-      throw new Error('El cliente no existe en el inventario');
+      throw new AppError(NotInInventoryError);
     }
 
     const invalidRace = "Tiefling" as unknown as Races;

@@ -5,6 +5,7 @@ import { Good } from "./good.js";
 /**
  * Represent a Sale object with its properties
  * 
+ * Class Sale
  * @param _client - The client who made the sale
  */
 export class Sale extends Transaction {

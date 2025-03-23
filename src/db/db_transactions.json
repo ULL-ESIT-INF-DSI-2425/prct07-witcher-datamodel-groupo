@@ -1,0 +1,26 @@
+{
+  "sale": [
+    {
+      "id": 1,
+      "good": {
+        "id": 1,
+        "name": "Espada",
+        "description": "Una espada de acero",
+        "material": "Makaham Steel",
+        "weight": 2,
+        "value": 10
+      },
+      "quantity": 1,
+      "total_price": 10,
+      "date": "2025-03-23T14:07:01.184Z",
+      "client": {
+        "id": 1,
+        "name": "Geraldo",
+        "race": "Witcher",
+        "location": "Kaer Morhen"
+      }
+    }
+  ],
+  "shop": [],
+  "return": []
+}

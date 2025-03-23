@@ -1,5 +1,5 @@
 /** 
- * Enun with some materials to craft objects in The Witcher
+ * Enum with some materials to craft objects in The Witcher
  */
 export enum Materials {
   MAKAHAM_STEEL = "Makaham Steel", 

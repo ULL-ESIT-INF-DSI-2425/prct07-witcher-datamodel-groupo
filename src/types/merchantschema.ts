@@ -1,7 +1,7 @@
 import { Merchant } from "../models/merchant.js";
 
 /**
- * MerchantSchema is a type that represents the structure of the JSON file that contains the merchants.
+ * Type that represents the schema for the merchants in merchants.json file
  */
 export type MerchantSchema = {
   merchant: Merchant[];

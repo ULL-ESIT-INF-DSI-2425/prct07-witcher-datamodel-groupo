@@ -6,9 +6,13 @@ import { LocationError } from "../errors/locationerror.js";
 import { IdError } from "../errors/iderror.js";
 
 /**
- * Represents a Client of the Inn
+ * Represents a Client of the Inventory
  *
  * Class Client
+   * @param _id - identification number of the Client (number)
+   * @param _name - name of the Client (string)
+   * @param _race - race of the Client (Races enum)
+   * @param _location - place of origin of the Client (Locations Enum) 
  */
 export class Client implements ClientInfo {
   accessor _id: number;

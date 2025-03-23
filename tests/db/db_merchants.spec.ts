@@ -51,16 +51,16 @@ describe("class DB_Merchant tests", () => {
   it('should have a method to add a merchant', () => {
     let merchant = new Merchant(2, "Gremist", MerchantType.ALCHEMIST, Locations.SKELLIGE);
     dbMerchants.addMerchant(merchant);
-    console.log("Estado del inventario tras añadir un comerciante:");
-    console.log(dbMerchants._inventory);
+    //console.log("Estado del inventario tras añadir un comerciante:");
+    //console.log(dbMerchants._inventory);
     expect(dbMerchants._inventory.length).toBe(1);
     dbMerchants.writeInventory();
   });
   
   it('should dont add a new merchant in the inventory if the merchant already exists', () => {
     let merchant = new Merchant(2, "Gremist", MerchantType.ALCHEMIST, Locations.SKELLIGE);
-    console.log("Estado del inventario tras añadir un comerciante ya existente:");
-    console.log(dbMerchants._inventory);
+    //console.log("Estado del inventario tras añadir un comerciante ya existente:");
+    //console.log(dbMerchants._inventory);
     expect(() => (dbMerchants.addMerchant(merchant))).toThrow(TakenIdError);
   });
   
@@ -69,26 +69,26 @@ describe("class DB_Merchant tests", () => {
     // Leer el inventario inicial
     dbMerchants.readIventory();
     // Crear y agregar un comerciante
-    console.log("Estado del inventario antes de eliminar un comerciante:");
-    console.log(dbMerchants._inventory);
+    //console.log("Estado del inventario antes de eliminar un comerciante:");
+    //console.log(dbMerchants._inventory);
     dbMerchants.removeMerchant(merchant);
     dbMerchants.writeInventory();
-    console.log("Estado del inventario tras eliminar un comerciante:");
-    console.log(dbMerchants._inventory);
+    //console.log("Estado del inventario tras eliminar un comerciante:");
+    //console.log(dbMerchants._inventory);
     expect(dbMerchants._inventory.length).toBe(0);
     //dbMerchants.writeInventory();
   });
   
   it('should dont remove a merchant in the inventory if the merchant does not exist', () => {
     let merchant = new Merchant(2, "Gremist", MerchantType.ALCHEMIST, Locations.SKELLIGE);
-    console.log("Estado del inventario antes de quitar el comerciante inexistente:");
-    console.log(dbMerchants._inventory);
+    //console.log("Estado del inventario antes de quitar el comerciante inexistente:");
+    //console.log(dbMerchants._inventory);
     expect(() => (dbMerchants.removeMerchant(merchant))).toThrow(NotInInventoryError);
   });
   // prueba de la función de modificación de un comerciante
   it('should have a method to modify a merchant', () => {
-    console.log("Estado del inventario antes de modificar un comerciante:");
-    console.log(dbMerchants._inventory);
+    //console.log("Estado del inventario antes de modificar un comerciante:");
+    //console.log(dbMerchants._inventory);
     
     // Leer el inventario inicial
     dbMerchants.readIventory();
@@ -98,8 +98,8 @@ describe("class DB_Merchant tests", () => {
     dbMerchants.addMerchant(merchant);
     dbMerchants.writeInventory();
     
-    console.log("Estado del inventario después de agregar un comerciante:");
-    console.log(dbMerchants._inventory);
+    //console.log("Estado del inventario después de agregar un comerciante:");
+    //console.log(dbMerchants._inventory);
     
     // Volver a leer el inventario y recuperar el merchant real desde el inventario
     dbMerchants.readIventory();
@@ -113,8 +113,8 @@ describe("class DB_Merchant tests", () => {
     dbMerchants.modifyMerchant(merchantToModify, 'location', Locations.NILFGAARD);
     // Modifica el nombre del comerciante
     dbMerchants.modifyMerchant(merchantToModify, 'name', 'Alberto el chupacabras');
-    console.log("Estado del inventario después de modificar el comerciante:");
-    console.log(dbMerchants._inventory);
+    //console.log("Estado del inventario después de modificar el comerciante:");
+    //console.log(dbMerchants._inventory);
     
     dbMerchants.writeInventory();
     expect(dbMerchants._inventory.length).toBe(1);
@@ -122,8 +122,8 @@ describe("class DB_Merchant tests", () => {
     expect(dbMerchants._inventory[0].name).toBe('Alberto el chupacabras');
   });
   it ('should emit error trying to modify a something that doesnt existe (location or type)', () => {
-    console.log("Estado del inventario antes de la prueba de error:");
-    console.log(dbMerchants._inventory);
+    //console.log("Estado del inventario antes de la prueba de error:");
+    //console.log(dbMerchants._inventory);
     
     // Leer el inventario inicial
     dbMerchants.readIventory();
@@ -133,8 +133,8 @@ describe("class DB_Merchant tests", () => {
     dbMerchants.addMerchant(merchant);
     dbMerchants.writeInventory();
     
-    console.log("Estado del inventario después de agregar un comerciante:");
-    console.log(dbMerchants._inventory);
+    //console.log("Estado del inventario después de agregar un comerciante:");
+    //console.log(dbMerchants._inventory);
     
     // Volver a leer el inventario y recuperar el merchant real desde el inventario
     dbMerchants.readIventory();
@@ -180,8 +180,8 @@ describe("class DB_Merchant tests", () => {
     dbMerchants.addMerchant(merchant9);
     dbMerchants.addMerchant(merchant10);
   
-    console.log("Estado del inventario tras añadir 10 comerciantes:");
-    console.log(dbMerchants._inventory);
+    //console.log("Estado del inventario tras añadir 10 comerciantes:");
+    //console.log(dbMerchants._inventory);
     dbMerchants.writeInventory();
   
   });
@@ -192,26 +192,26 @@ describe("class DB_Merchant tests", () => {
   // pruebas de localizar mercader por nombre, tipo, ubicación y id
   it ('should find a merchant by name', () => {
     let merchant = dbMerchants.searchMerchant('name', 'Gremist');
-    console.log("Resultado de la búsqueda por nombre:");
-    console.log(merchant);
+    //console.log("Resultado de la búsqueda por nombre:");
+    //console.log(merchant);
     expect(merchant.length).toBe(2);
   });
   it ('should find a merchant by type', () => {
     let merchant = dbMerchants.searchMerchant('type', MerchantType.ALCHEMIST);
-    console.log("Resultado de la búsqueda por tipo:");
-    console.log(merchant);
+    //console.log("Resultado de la búsqueda por tipo:");
+    //console.log(merchant);
     expect(merchant.length).toBe(4);
   });
   it ('should find a merchant by location', () => {
     let merchant = dbMerchants.searchMerchant('location', Locations.SKELLIGE);
-    console.log("Resultado de la búsqueda por ubicación:");
-    console.log(merchant);
+    //console.log("Resultado de la búsqueda por ubicación:");
+    //console.log(merchant);
     expect(merchant.length).toBe(4);
   });
   it ('should find a merchant by id', () => {
     let merchant = dbMerchants.searchMerchant('id', 1);
-    console.log("Resultado de la búsqueda por id:");
-    console.log(merchant);
+    //console.log("Resultado de la búsqueda por id:");
+    //console.log(merchant);
     expect(merchant.length).toBe(1);
   });
   // errores de searchMerchant

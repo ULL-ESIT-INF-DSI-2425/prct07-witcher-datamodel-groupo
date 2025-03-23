@@ -11,13 +11,14 @@ import { RaceError } from "../errors/raceerror.js";
 import { LocationError } from "../errors/locationerror.js";
 import { IdError } from "../errors/iderror.js";
 import { TakenIdError } from "../errors/takeniderror.js";
+import { DBClient } from "../interfaces/db_clients.js";
 
 /**
  * Class that represents the database of clients
  *
  * DB_Client class
  */
-export class DB_Client {
+export class DB_Client implements DBClient {
 
   accessor _adapter: JSONFile<ClientSchema>;
   accessor _db: Low<ClientSchema>;
@@ -176,11 +177,12 @@ export class DB_Client {
   searchClient<T extends keyof Client>(key: T, value: Client[T]): Client[] {
     switch(key){
 
-      case 'id':
+      case 'id': {
         IdError.validate(Number(value));
-        let valueSearch = Number(value);
+        let valueSearch: number = Number(value);
         return this._inventory.filter((client) => client[key] === valueSearch);
-
+      }
+      
       case 'name':
         if (typeof value !== 'string' || value.trim() === '') {
           throw new NotInInventoryError(`Invalid name: ${value}`);

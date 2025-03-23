@@ -1,7 +1,7 @@
 import { GoodStack } from "./goodstack.js";
 
 /**
- * The schema for the goods
+ * Type that represents the schema for the Goods in goods.json file
  */
 export type GoodSchema = {
   goods: GoodStack[];

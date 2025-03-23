@@ -14,7 +14,6 @@ import { Locations } from "../../enums/locations.js";
  * 
  */
 export const addMerchant = async (dbMerchant: DB_Merchant) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const answers = await inquirer.prompt([
     {
       type: 'input',

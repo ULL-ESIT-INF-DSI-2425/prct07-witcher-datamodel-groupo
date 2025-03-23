@@ -4,6 +4,7 @@ import { Good } from "./good.js";
 /**
  * Represents a Return object with its properties
  * 
+ * Class Return
  * @param _agent - The agent who made the return
  * @param _good - The good that is returned
  * @param _quantity - The quantity of the good that is returned
@@ -15,6 +16,15 @@ export class Return<T> {
   accessor _good: Good; // el bien que se devuelve
   accessor _quantity: number;
   accessor _date: Date;
+
+  /** 
+   * The constructor of the class Return
+   * @param id - The id of the return
+   * @param agent - The agent who made the return
+   * @param good - The good that is returned
+   * @param quantity - The quantity of the good that is returned
+   * @param date - The date of the return
+   */
   constructor(
     public id: number,
     public agent: T,

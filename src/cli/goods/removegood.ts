@@ -13,7 +13,6 @@ import { Materials } from '../../enums/materials.js';
  * ```
  */
 export const removeGood = async (dbGood: DB_Good) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const answers = await inquirer.prompt([
     {
       type: 'input',
