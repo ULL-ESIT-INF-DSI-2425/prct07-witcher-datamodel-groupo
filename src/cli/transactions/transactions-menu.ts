@@ -1,13 +1,17 @@
 import inquirer from 'inquirer';
-import { DB_Transactions } from "../../db/db_transaction.js"
+import { DB_Transactions } from "../../db/db_transaction.js";
+import { addTransaction } from './addtransaction.js';
+import { returnTransaction } from './returntransaction.js';
+import { addSupply } from './addsupply.js';
 
-export const transactionMenu = async (transaction: DB_Transactions) => {
+
+export const transactionMenu = async (transactions: DB_Transactions) => {
   
   let managing = true;
 
   while (managing) {
     
-    const { transactionType } = await inquirer.prompt([
+    const { transactiontype } = await inquirer.prompt([
       {
         type: 'list',
         name: 'transactiontype',
@@ -15,24 +19,25 @@ export const transactionMenu = async (transaction: DB_Transactions) => {
         choices: [
           '📦 Make a transaction',
           '📜 Add a supply',
-          '💰 Refund a sale',
+          '🗳️ Manage refunds',
           '⬅️ Back'
         ],
       },
     ]);
     
-    switch (transactionType) {
+    switch (transactiontype) {
       case '📦 Make a transaction':
-        //await searchGood(dbManager.getDBGood());
+        await addTransaction(transactions); // done, works
         break;
       case '📜 Add a supply':
-        //console.table(inventarioService.verBienesMasVendidos());
+        await addSupply(transactions); // done, works
         break;
-      case '💰 Refund a sale':
-        //console.log(inventarioService.verResumenFinanciero());
+      case '🗳️ Manage refunds':
+        await returnTransaction(transactions); // check, not working
         break;
       case '⬅️ Back':
         managing = false;
+        transactions.writeTransactions();
         return;
     }
   }

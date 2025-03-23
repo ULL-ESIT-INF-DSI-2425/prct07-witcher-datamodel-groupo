@@ -17,6 +17,9 @@ import { DBClient } from "../interfaces/db_clients.js";
  * Class that represents the database of clients
  *
  * DB_Client class
+ * @param _adapter - The JSON File adapter
+ * @param _db - The LowDB instance
+ * @param _filepath - The path to the JSON File
  */
 export class DB_Client implements DBClient {
 
@@ -91,6 +94,7 @@ export class DB_Client implements DBClient {
    * The method to add a client to the inventory
    * @param clientToAdd - The client to add to the inventory
    * @throws ClientAlreadyExistsError - If the client already exists in the inventory
+   * @throws TakenIdError - If the id is already taken
    * @example
    * ```typescript
    * const db = new DB_Client(new JSONFile<ClientSchema>('./src/db/db_client.json'), new Low<ClientSchema>(adapter, initialData));
@@ -143,7 +147,23 @@ export class DB_Client implements DBClient {
     }
   }
 
-
+  /**
+   * The method to modify a client from the inventory
+   * @param clientToModify - The client to modify from the inventory
+   * @param key - The key to modify
+   * @param value - The value to modify
+   * @throws NotInInventoryError - If the client is not in the inventory
+   * @throws NotModifyId - If the id is tried to be modified
+   * @throws RaceError - If enters an invalid race
+   * @throws LocationError - If enters an invalid location
+   * @example
+   * ```typescript
+   * const db = new DB_Client(new JSONFile<ClientSchema>('./src/db/db_client.json'), new Low<ClientSchema>(adapter, initialData));
+   * await db.initDB();
+   * db.modifyClient(clientToModify, 'name', 'newName');
+   * await db.writeInventory();
+   * ```
+   */
   modifyClient<T extends keyof Client>(clientToModify: Client, key: T, value: Client[T]): void {
     if(!this._inventory.some((client) => client.id === clientToModify.id)){
       throw new NotInInventoryError('The client is not in the inventory');
@@ -174,6 +194,21 @@ export class DB_Client implements DBClient {
     );
   }
 
+  /** 
+   * The method to search a client from the inventory
+   * @param key - The key to search
+   * @param value - The value to search
+   * @throws NotInInventoryError - If the client is not in the inventory
+   * @throws RaceError - If enters an invalid
+   * @throws LocationError - If enters an invalid location
+   * @returns The clients found by the search
+   * @example
+   * ```typescript
+   * const db = new DB_Client(new JSONFile<ClientSchema>('./src/db/db_client.json'), new Low<ClientSchema>(adapter, initialData));
+   * await db.initDB();
+   * db.searchClient('name', 'name');
+   * ```
+   */
   searchClient<T extends keyof Client>(key: T, value: Client[T]): Client[] {
     switch(key){
 

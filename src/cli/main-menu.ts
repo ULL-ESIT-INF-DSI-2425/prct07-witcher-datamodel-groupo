@@ -50,7 +50,7 @@ export const mainMenu = async () => {
         await transactionMenu(transactions);
         break;
       case '📊\tReports management':
-        await reportsMenu(db);
+        await reportsMenu(db, transactions);
         break;
       case '❌\tExit':
         running = false;

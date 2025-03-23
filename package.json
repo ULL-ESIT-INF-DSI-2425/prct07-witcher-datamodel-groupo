@@ -3,16 +3,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "app": "node dist/cli/main-menu.js",
     "dev": "tsc-watch --onSuccess \"node dist/basicFunctions.js\"",
     "eslint": "eslint .",
     "prettier": "prettier --write .",
     "doc": "typedoc",
     "test": "rm -f ./src/db/*.json && npx vitest run",
-    "coverage": "rm -f ./src/db/*.json && npx vitest run --coverage --coverage.include 'src/**/*'",
+    "test-reports": "npx vitest run ./tests/services/reportsmanager.spec.ts",
+    "coverage": "rm -f ./src/db/*.json && npx vitest run --coverage --coverage.include 'src/**/*' --coverage.exclude 'src/cli/**'",
     "test-client-db": "rm -f ./src/db/db_clients.json && npx vitest run ./tests/db/db_clients.spec.ts",
     "test-inventory-db": "rm -f ./src/db/db_good.json && npx vitest run ./tests/db/db_good.spec.ts",
     "test-merchant-db": "rm -f ./src/db/db_merchants.json && npx vitest run ./tests/db/db_merchants.spec.ts",
-    "test-transaction-db": "rm -f ./src/db/db_transactions.json && npx vitest run ./tests/db/db_transactions.spec.ts",
+    "test-transaction-db": "rm -f ./src/db/db_transactions.json && vitest run ./tests/db/db_transactions.spec.ts",
     "test-cliinmer-db": "rm -f ./src/db/db_clients.json && rm -f ./src/db/db_merchants.json && rm -f ./src/db/db_good.json && vitest run ./tests/db/db_clients.spec.ts ./tests/db/db_merchants.spec.ts ./tests/db/db_good.spec.ts"
   },
   "repository": {

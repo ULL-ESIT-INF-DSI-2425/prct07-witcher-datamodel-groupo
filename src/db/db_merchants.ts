@@ -17,6 +17,9 @@ import { InvalidKey } from "../errors/invalidkey.js";
  * Class that represents the database of merchants
  * 
  * DB_Merchant class
+ * @param _adapater - The JSON File adapter
+ * @param _db - The LowDB instance
+ * @param _inventory - The inventory of merchants
  */
 export class DB_Merchant {
 
@@ -90,6 +93,9 @@ export class DB_Merchant {
 
   /**
    * Method that returns the inventory
+   * @param merchantToAdd - The merchant to add
+   * @throws MerchantAlreadyExistsError - If the merchant already exists
+   * @throws TakenIdError - If the id is already taken
    * @example
    * ```typescript
    * const db = new DB_Merchant(new JSONFile<MerchantSchema>('./src/db/db_merchants.json'), new Low<MerchantSchema>(adapter, initialData));
@@ -119,6 +125,8 @@ export class DB_Merchant {
 
   /**
    * Method that removes a merchant from the inventory
+   * @param merchantToRemove - The merchant to remove
+   * @throws NotInInventoryError - If the merchant is not in the inventory
    * @example
    * ```typescript
    * const db = new DB_Merchant(new JSONFile<MerchantSchema>('./src/db/db_merchants.json'), new Low<MerchantSchema>(adapter, initialData));
@@ -133,8 +141,8 @@ export class DB_Merchant {
     this._inventory.forEach((merchant) => {
       merchant_array.push(merchant);
     });
+
     let flag = false;
-    // buscar si el comerciante está en el inventario
     this._inventory.forEach((merchant) => {
       if(merchant.id === merchantToRemove.id && merchant.name === merchantToRemove.name && merchant.type === merchantToRemove.type && merchant.location === merchantToRemove.location){
         flag = true;
@@ -147,7 +155,24 @@ export class DB_Merchant {
 
     }
   }
-  // funcion que modifica un mercader. Será una función genérica 
+
+  /** 
+   * Method that modifies a merchant in the inventory
+   * @param merchantToModify - The merchant to modify
+   * @param key - The key of the property to modify
+   * @param value - The value to set
+   * @throws NotInInventoryError - If the merchant is not in the inventory
+   * @throws NotModifyId - If the id
+   * @throws LocationError - If the location is invalid
+   * @throws MerchantError - If the merchant type is invalid
+   * @example
+   * ```typescript
+   * const db = new DB_Merchant(new JSONFile<MerchantSchema>('./src/db/db_merchants.json'), new Low<MerchantSchema>(adapter, initialData));
+   * await db.initDB();
+   * await db.readIventory();
+   * db.modifyMerchant(merchantToModify, key, value);
+   * ```
+   */
   modifyMerchant<T extends keyof Merchant>(merchantToModify: Merchant, key: T, value: Merchant[T]): void {
     if (!this._inventory.some((merchant) => merchant.id === merchantToModify.id)) {
       throw new NotInInventoryError('The merchant is not in the inventory');
@@ -157,10 +182,9 @@ export class DB_Merchant {
       throw new NotModifyId('The id cannot be modified');
     }
 
-    // Validaciones según la propiedad a modificar
+
     switch (key) {
       case 'location':
-        // comprobar si la ubicación es válida (mirar si está dentro del enum)
         if (!Object.values(Locations).includes(value as Locations)) {
           throw new LocationError(`Invalid location: ${value}`);
         }
@@ -178,6 +202,22 @@ export class DB_Merchant {
         : merchant
     );
   }
+
+  /**
+   * Method that searches for a merchant in the inventory
+   * @param key - The key of the property to search for
+   * @param value - The value to search for
+   * @throws MerchantError - If the merchant type is invalid
+   * @throws LocationError - If the location is invalid
+   * @throws InvalidKey - If the key is invalid
+   * @example
+   * ```typescript
+   * const db = new DB_Merchant(new JSONFile<MerchantSchema>('./src/db/db_merchants.json'), new Low<MerchantSchema>(adapter, initialData));
+   * await db.initDB();
+   * await db.readIventory();
+   * db.searchMerchant(key, value);
+   * ```
+   */
   searchMerchant<T extends keyof Merchant>(key: T, value: Merchant[T]): Merchant[] {
     switch (key) {
       case 'id':
@@ -201,15 +241,11 @@ export class DB_Merchant {
         break;
       default:
         throw new InvalidKey(`Invalid key: ${key}`);
-      
     }
     let result = this._inventory.filter((merchant) => merchant[key] === value);
     if (result.length === 0) {
       throw new MerchantError(`No merchant found with ${key} ${value}`);
     }
     return this._inventory.filter((merchant) => merchant[key] === value);
-  }
-
-
-  
+  } 
 }
