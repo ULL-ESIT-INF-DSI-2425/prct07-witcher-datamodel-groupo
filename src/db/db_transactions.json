@@ -1,5 +1,126 @@
 {
-  "sale": [],
+  "sale": [
+    {
+      "id": 1,
+      "good": {
+        "id": 1,
+        "name": "Espada Legendaria",
+        "description": "Una espada legendaria de acero",
+        "material": "Makaham Steel",
+        "weight": 2,
+        "value": 10
+      },
+      "quantity": 2,
+      "total_price": 30,
+      "date": "2025-03-25T19:41:22.317Z",
+      "client": {
+        "id": 1,
+        "name": "Geraldo",
+        "race": "Witcher",
+        "location": "Kaer Morhen"
+      }
+    },
+    {
+      "id": 2,
+      "good": {
+        "id": 9,
+        "name": "Casco",
+        "description": "Un casco de hierro",
+        "material": "Makaham Steel",
+        "weight": 3,
+        "value": 15
+      },
+      "quantity": 1,
+      "total_price": 15,
+      "date": "2025-03-25T19:42:53.094Z",
+      "client": {
+        "id": 3,
+        "name": "Charlie",
+        "race": "Dwarf",
+        "location": "Skellige"
+      }
+    },
+    {
+      "id": 3,
+      "good": {
+        "id": 3,
+        "name": "Martillo",
+        "description": "Un martillo de acero",
+        "material": "Steel Line",
+        "weight": 2.5,
+        "value": 12
+      },
+      "quantity": 1,
+      "total_price": 12,
+      "date": "2025-03-25T19:44:53.409Z",
+      "client": {
+        "id": 2,
+        "name": "Tormunt",
+        "race": "Elf",
+        "location": "Redania"
+      }
+    },
+    {
+      "id": 6,
+      "good": {
+        "id": 16,
+        "name": "Pico",
+        "description": "Un pico de minería",
+        "material": "Steel Line",
+        "weight": 5,
+        "value": 18
+      },
+      "quantity": 1,
+      "total_price": 18,
+      "date": "2025-03-25T19:54:29.248Z",
+      "client": {
+        "id": 5,
+        "name": "Eve",
+        "race": "Human",
+        "location": "Redania"
+      }
+    },
+    {
+      "id": 8,
+      "good": {
+        "id": 4,
+        "name": "Escudo mortal",
+        "description": "Un escudo monstruoso",
+        "material": "Monster Essence",
+        "weight": 5,
+        "value": 20
+      },
+      "quantity": 13,
+      "total_price": 260,
+      "date": "2025-03-25T19:58:01.913Z",
+      "client": {
+        "id": 5,
+        "name": "Eve",
+        "race": "Human",
+        "location": "Redania"
+      }
+    },
+    {
+      "id": 9,
+      "good": {
+        "id": 11,
+        "name": "Arco",
+        "description": "Un arco de madera",
+        "material": "Resin",
+        "weight": 1.5,
+        "value": 8
+      },
+      "quantity": 1,
+      "total_price": 8,
+      "date": "2025-03-25T20:00:16.508Z",
+      "client": {
+        "id": 1,
+        "name": "Geraldo",
+        "race": "Witcher",
+        "location": "Kaer Morhen"
+      }
+    }
+  ],
   "shop": [
     {
       "id": 3,
@@ -13,14 +134,74 @@
       },
       "quantity": 3,
       "total_price": 10,
-      "date": "2025-03-23T23:50:07.683Z",
+      "date": "2025-03-25T19:39:54.443Z",
       "merchant": {
         "id": 2,
-        "name": "Gremist",
+        "name": "Alberto el chupacabras",
         "type": "Alchemist",
-        "location": "Skellige"
+        "location": "Nilfgaard"
+      }
+    },
+    {
+      "id": 1,
+      "good": {
+        "id": 33,
+        "name": "Baculo de mandaloriano",
+        "description": "Un baculo perteneciente a un gremio espacial",
+        "material": "Meteorite Lingot",
+        "weight": 45,
+        "value": 180
+      },
+      "quantity": 3,
+      "total_price": 540,
+      "date": "2025-03-25T19:48:23.843Z",
+      "merchant": {
+        "id": 6,
+        "name": "Hattori",
+        "type": "Alchemist",
+        "location": "Velen"
+      }
+    },
+    {
+      "id": 4,
+      "good": {
+        "id": 99,
+        "name": "mesa de crafteo",
+        "description": "mesa proveniente de un reino con ideas cuadradas",
+        "material": "Resin",
+        "weight": 25,
+        "value": 100
+      },
+      "quantity": 5,
+      "total_price": 500,
+      "date": "2025-03-25T19:50:14.559Z",
+      "merchant": {
+        "id": 8,
+        "name": "Olivier",
+        "type": "Enchanter",
+        "location": "Toussant"
       }
     }
   ],
-  "return": []
+  "return": [
+    {
+      "id": 1,
+      "agent": {
+        "id": 1,
+        "name": "Geraldo",
+        "race": "Witcher",
+        "location": "Kaer Morhen"
+      },
+      "good": {
+        "id": 1,
+        "name": "Espada Legendaria",
+        "description": "Una espada legendaria de acero",
+        "material": "Makaham Steel",
+        "weight": 2,
+        "value": 10
+      },
+      "quantity": 1,
+      "date": "2025-03-25T19:51:39.021Z"
+    }
+  ]
 }
